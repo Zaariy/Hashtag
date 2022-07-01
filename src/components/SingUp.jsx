@@ -30,7 +30,7 @@ function SingUp () {
 					</label>
 					<input type='email' name='email' placeholder='Email address' />
 					<label>Password </label>
-					<input type='password' name='passwrod' placeholder='Passwrod' />
+					<input type='password' name='password' placeholder='Passwrod' />
 					<div className='ruls'>
 
 						<input type='checkbox' name='ruls' />
@@ -41,7 +41,7 @@ function SingUp () {
 					<div className='social'>
 
 						<p>
-							Already Have account? <Link to={'#'} >Log In</Link>
+							Already Have account? <Link to={'/singin'} >Log In</Link>
 						</p>						
 						<div className='social-media'>
 							<Link to={'#'} ><FontAwesomeIcon className='icon-fb' icon={faFacebook} /></Link>

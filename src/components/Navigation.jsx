@@ -1,4 +1,4 @@
-import React , {useState} from 'react' ;
+import React , {useState , useEffect} from 'react' ;
 import '../css/navigation.css' ;
 import {Link} from 'react-router-dom' ;
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome' ;
@@ -15,10 +15,16 @@ faUser , faSliders , faXmark
 const logo = require('../images/logoBlack.png') ; 
 const avatar = require('../images/avatar.jpg');
 
+
+
+
 function Navigation() {
 	const [menu , setmenu] = useState(false);
 	const [menuRight , setmenuRight] = useState(false) ;
 
+	useEffect(() => {
+		 fetch('/route/logout' , {method : 'POST'}).then((data) => data.json()).then((data) => console.log(data) )
+	} , [])
 	// function DoEvent() {
 	// 	const elemnt = document.querySelector('')
 	// }
@@ -80,6 +86,7 @@ function Navigation() {
 					<Link to={'#'} ><FontAwesomeIcon icon={faUserGroup} />Friend Request</Link>
 					<Link to={'#'} ><FontAwesomeIcon icon={faEnvelopeOpen} />Message</Link>
 					<Link to={'#'} ><FontAwesomeIcon icon={faUser} />Profile</Link>
+					<Link to={'/'} state={{'logout' : 'seccess'}} ><FontAwesomeIcon icon={faUser} />logout</Link>
 				</div>
 				
 			</div>

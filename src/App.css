@@ -38,3 +38,7 @@
   background-color: #f8f9fa;
   min-height: 200vh;
 }
+.danger {
+  color: red;
+  font-weight: 300;
+}
