@@ -51,7 +51,7 @@ function Navigation() {
 						</div>
 						<div className='profile'>
 							<img  src={avatar} alt='avatar' />
-							<p>Mohamed</p>
+							<p>Sara</p>
 						</div>
 						<FontAwesomeIcon icon={faSliders} onClick={(e) => setmenuRight(!menuRight)} className='icon-sliders-right' />
 					</div>

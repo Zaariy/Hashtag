@@ -18,6 +18,7 @@
 .containerMainpage {
   margin-right: 80px;
   margin-left: 80px;
+  height: 100%;
 }
 
 @media (max-width : 767px) {
@@ -35,5 +36,5 @@
 
 .mainpage {
   background-color: #f8f9fa;
-  height: 100vh;
+  min-height: 200vh;
 }
