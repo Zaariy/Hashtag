@@ -6,19 +6,37 @@ import {useEffect , useState} from 'react' ;
 import {Routes , Route , BrowserRouter  } from 'react-router-dom' ;
 
 function App() {
-  const [session , setSession ] = useState(null);
+  const [session , setSession ] = useState(false);
   
 
   useEffect(() => {
-      fetch('/route/session' , {method : 'POST'}).then((data) => data.json()).then((data) => setSession(data) )
 
-  }, [])
+      fetch('/route/session' , {method : 'POST'}).then((data) => data.json()).then((data) => {
+          if (data.session !== false) {
+            setSession(data.session);
+          }else {
+            setSession(false)
+
+          }
+          
+          if (data.session !== false) {
+            sessionStorage.setItem('session' , data.session) ;
+          }else {
+            sessionStorage.clear();
+          }
+         
+          console.log(sessionStorage.getItem('session'))
+      })
+
+
+
+  })
 
   return (
       <BrowserRouter>
         <Routes>
         {
-          session?.session ? (
+          sessionStorage.getItem('session') || session !== false ? (
 
               <Route path='/home' element={<MainPage />} />
 

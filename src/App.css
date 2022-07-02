@@ -32,6 +32,10 @@
     margin-left: 20px;
 
   }
+  .box-alert .content {
+    width: calc(100% - 50px) !important;
+
+  }
 }
 
 .mainpage {
@@ -41,4 +45,57 @@
 .danger {
   color: red;
   font-weight: 300;
+}
+
+/* Aleart box */
+
+
+.box-alert {
+    width: 100%;
+    position: absolute;
+    z-index: 20;
+    color: white;
+    height: 100vh;
+    background-color: white;
+    /*top: 0;*/
+    /*bottom: 0;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.box-alert  img {
+  width: 150px;
+  margin-top:  20px ;
+}
+.box-alert span {
+  display : block ;
+  color: black;
+  font-weight: 300;
+}
+.box-alert .content {
+  width: 500px;
+  height: 400px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+
+}
+.box-alert .content h1 {
+  font-size: 24px;
+  text-align: center;
+  margin: 20px  0;
+  font-weight: 600;
+
+}
+.box-alert .content a {
+  background-color: black;
+  padding: 15px 50px;
+  border-radius: 15px;
+  font-size: 17px;
+  color: white;
+  margin-top: 20px;
 }

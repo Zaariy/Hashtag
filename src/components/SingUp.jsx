@@ -1,11 +1,66 @@
-import React from 'react' ;
+import React , {useState , useEffect} from 'react' ;
 import '../css/singup.css' ;
 import {FontAwesomeIcon} from  '@fortawesome/react-fontawesome' ;
 import {faTwitter , faFacebook	, faInstagram} from '@fortawesome/free-brands-svg-icons' ;
 import {Link} from 'react-router-dom' ;
+import axios from 'axios' ;
 const img = require('../images/baner.png') ;
+const successImg = require('../images/svg.png');
+function BoxAlert () {
+
+	return (
+		<div className='box-alert'>
+			<div className='content'>
+				<h1>Account created seccessfly</h1>
+				<span>Now you can Navigate</span>
+				<img src={successImg} alt='img' />
+				<Link to={'/singin'} >Log In</Link>
+			</div>
+		</div>
+		)
+}
 
 function SingUp () {
+
+	const [fname , setFname] = useState('')
+	const [email , setEmail] = useState('')
+	const [password , setPassword] = useState('') ;
+	const [dataIsReady , setDataIsReady] = useState(false) ;
+	const [state , setState] = useState(false) ;
+	useEffect(() => {
+		submitData()
+		
+	})
+	function chickInputs () {
+		if (fname.length !== 0 && password.length !== 0 && email.length !== 0  ) {
+			return true
+		}else {
+			return false
+		}
+	}
+	function submitData(){
+		if (dataIsReady && chickInputs()) {
+			axios.post('/route/singup' ,  JSON.stringify({"email" : email , 'password' : password , 'fname' : fname}) )
+			.then((res) => res.data)
+			.then((res) => {
+			
+				setState(res.data)
+				if (res.data) {
+					console.log('redirect')
+				}
+				setDataIsReady(false)
+
+		
+			} )
+		}
+
+	}
+
+	function handlEvent (event) {
+		event.preventDefault();
+		setDataIsReady(true)
+	}
+	
 
 	return (
 
@@ -20,17 +75,17 @@ function SingUp () {
 					Enter your Email Address and password to access 
 					admin panle
 				</p>
-				<form action='#' method='POST'>
+				<form action='/' method='POST' onSubmit={(e) => handlEvent(e)}>
 					<label>
 						Your Full Name 
 					</label>
-					<input type='text' name='fname' placeholder='Your Full Name' />
+					<input type='text'  onChange={(e) => setFname(e.target.value)} placeholder='Your Full Name' />
 					<label>
 						Email address
 					</label>
-					<input type='email' name='email' placeholder='Email address' />
+					<input type='email' onChange={(e) => setEmail(e.target.value)} placeholder='Email address' />
 					<label>Password </label>
-					<input type='password' name='password' placeholder='Passwrod' />
+					<input type='password' onChange={(e) => setPassword(e.target.value)}  placeholder='Passwrod' />
 					<div className='ruls'>
 
 						<input type='checkbox' name='ruls' />
@@ -50,7 +105,9 @@ function SingUp () {
 						</div>
 					</div>
 				</form>
+
 			</div>
+			{state ? <BoxAlert /> : ''}
 		</div>
 	)
 }

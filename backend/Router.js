@@ -5,15 +5,12 @@ const {v4: uuidv4} =  require('uuid') ;
 const body =  require('body-parser') ;
 
 
-// const body =  require('body-parser') ;
 
-// router.use(body.json())
-// router.use(body.urlencoded("extended" : true , 'instead' : false))
 
-const data = {
+let data = [{
 	"email" : "hamda@gmail.com" ,
 	"password" : "1234"
-}
+}]
 
 router.use(session({
 
@@ -22,27 +19,7 @@ router.use(session({
 	saveUninitialized : true 
 }))
 
-router.post('/singin' , (req , res) => {
-	
-	const resData =  JSON.parse(Object.keys(req.body)[0])
- 	
-	console.log(resData)
-	if (resData != '{}') {
-		if (resData.email === data.email && resData.password === data.password) {
-			req.session.name = uuidv4() ;
-			console.log(req.session.name)
-			res.status(200).send({'status' : true})
-		} else {
-			
-			res.status(200).send({'status' : false})
-		}
-	} else {
-			res.status(200).send({'status' : false})
-	}
 
-	
-	// res.status(200).send({'connection' : 'seccess'})
-})
 
 router.post('/session' , (req , res) => {
 	if (req.session.name) {
@@ -55,9 +32,48 @@ router.post('/session' , (req , res) => {
 
 router.post('/logout' , (req ,res) => {
 	req.session.destroy()
+	console.log('session destroy')
 	res.send({'status' : 'seccess'})
 })
 
+router.post('/singup' , (req , res) => {
+		const resData =  JSON.parse(Object.keys(req.body)[0])
+		// for expmle databases ;
+		data.push(resData)
+		res.status(200).send({'data' : true})
+})
+
+const usersfind = ( req , res , next) => {
+
+	
+	const dataUsers = JSON.parse(Object.keys(req.body)[0]);
+	const resolut = data.find((ele) => {
+		return ele.email == dataUsers.email && dataUsers.password == ele.password
+	})
+
+	console.log(resolut)
+	
+		if (resolut) {
+			req.session.name = uuidv4() ;
+			console.log(req.session.name)
+			res.status(200).send({'status' : true})
+		} else {
+			
+			res.status(200).send({'status' : false})
+		}
+	
+	next()
+}
+
+
+
+
+router.use(usersfind)
+router.post('/singin' , (req , res) => {
+	
+	console.log('yp')
+
+})
 
 
 

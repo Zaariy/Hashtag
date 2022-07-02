@@ -9,45 +9,57 @@ import axios from 'axios' ;
 
 
 const img = require('../images/baner.png') ;
-// const send = JSON.stringify({email : "Mohamd.tanger2016@gmail.com", password : "1234"})
+
 
 
 
 function Login(props) {
-	const	[data , setData] = useState({status : true})
-	const [email , setEmail] = useState()
-	const [password , setPassword] = useState()
-	const [dataIsReady , setDataIsReady ] = useState({event : false , click : false }) ;
-	const [goPage , setgoPage ] = useState(false) ;
-
-
+	const [data , setData] = useState({status : true})
+	const [email , setEmail] = useState('')
+	const [password , setPassword] = useState('')
+	const [dataIsReady , setDataIsReady ] = useState(false) ;
+	
 
 
 	useEffect(() => {
+		if (dataIsReady && chickInputs()) {
+			chickLogin();
 
-		if (dataIsReady.event) {
+		}
+	
+		return  () => {
+			setDataIsReady(false)
+		}
+	})
+
+	function chickInputs () {
+		if (password.length !== 0 && email.length !== 0  ) {
+			return true
+		}else {
+			return false
+		}
+	}
+	function chickLogin(){
+		
 			axios.post('/route/singin' ,   JSON.stringify({"email" : email , password : password }))
 			.then((res) => res.data)
 			.then((res) => {
 			
 			setData({"status" : res.status})
-			setgoPage(true)
-					})
 
-		}
-		if (goPage !== false ) {
-			window.location.pathname = '/home'
-			console.log(window.location)
-		}
-
-		
-		
-	} , [dataIsReady.click] )
+			if (res.status) {
+				window.location.pathname = '/home';
+				
+			}else {
+				setDataIsReady(false)
+			}		
+			} )
+	}
 
 
 	function handlEvent (event) {
 		event.preventDefault();
-		setDataIsReady({"event" : true , "click" : !dataIsReady.click })
+		setDataIsReady(true)
 	}
 	
 	return (
@@ -62,11 +74,11 @@ function Login(props) {
 					Enter your Email Address and password to access 
 					admin panle
 				</p>
-				<form action='/home' onSubmit={(e) => handlEvent(e)} method='POST'>
+				<form action='/home' onSubmit={(e) => handlEvent(e)}   method='POST'>
 					<label>
 						Email address
 					</label>
-					<input type='email' name='email' onChange={(e) => setEmail(e.target.value) } placeholder='Email address' />
+					<input type='email' name='email'  onChange={(e) => setEmail(e.target.value) } placeholder='Email address' />
 					<span className='danger'>{ data?.status ? "" : 'email or password is not correct'}</span>
 					<label>Password </label>
 					<input type='password' name='password'  onChange={(e) => setPassword(e.target.value)} placeholder='Passwrod' />

@@ -1,4 +1,4 @@
-import React , {useState , useEffect} from 'react' ;
+import React , {useState} from 'react' ;
 import '../css/navigation.css' ;
 import {Link} from 'react-router-dom' ;
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome' ;
@@ -21,13 +21,12 @@ const avatar = require('../images/avatar.jpg');
 function Navigation() {
 	const [menu , setmenu] = useState(false);
 	const [menuRight , setmenuRight] = useState(false) ;
+	// const [destroySession , setDesetroySession] = useState(false) ;
 
-	useEffect(() => {
-		 fetch('/route/logout' , {method : 'POST'}).then((data) => data.json()).then((data) => console.log(data) )
-	} , [])
-	// function DoEvent() {
-	// 	const elemnt = document.querySelector('')
-	// }
+		function logout(){
+			sessionStorage.clear()
+	 		fetch('/route/logout' , {method : 'POST'}).then((data) => data.json()).then((data) => console.log(data) )
+		}
 
 	return (
 		<nav>
@@ -86,7 +85,10 @@ function Navigation() {
 					<Link to={'#'} ><FontAwesomeIcon icon={faUserGroup} />Friend Request</Link>
 					<Link to={'#'} ><FontAwesomeIcon icon={faEnvelopeOpen} />Message</Link>
 					<Link to={'#'} ><FontAwesomeIcon icon={faUser} />Profile</Link>
-					<Link to={'/'} state={{'logout' : 'seccess'}} ><FontAwesomeIcon icon={faUser} />logout</Link>
+					<a href='/singin'  onClick={() => {
+						logout()
+						
+					}} ><FontAwesomeIcon icon={faUser} />logout</a>
 				</div>
 				
 			</div>
