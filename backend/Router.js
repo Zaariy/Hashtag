@@ -3,14 +3,8 @@ const router = express.Router() ;
 const session = require('express-session') ;
 const {v4: uuidv4} =  require('uuid') ;
 const body =  require('body-parser') ;
+const {addNewUser , searchUser} =  require('./mangodb/db_library/initialize_db.js')
 
-
-
-
-let data = [{
-	"email" : "hamda@gmail.com" ,
-	"password" : "1234"
-}]
 
 router.use(session({
 
@@ -18,8 +12,6 @@ router.use(session({
 	resave : false ,
 	saveUninitialized : true 
 }))
-
-
 
 router.post('/session' , (req , res) => {
 	if (req.session.name) {
@@ -39,21 +31,17 @@ router.post('/logout' , (req ,res) => {
 router.post('/singup' , (req , res) => {
 		const resData =  JSON.parse(Object.keys(req.body)[0])
 		// for expmle databases ;
-		data.push(resData)
+		addNewUser({'full_Name' : resData.fname , 
+			'password' : resData.password , 
+			'email' : resData.email})
 		res.status(200).send({'data' : true})
 })
 
-const usersfind = ( req , res , next) => {
-
-	
+const usersfind = async ( req , res , next) => {
 	const dataUsers = JSON.parse(Object.keys(req.body)[0]);
-	const resolut = data.find((ele) => {
-		return ele.email == dataUsers.email && dataUsers.password == ele.password
-	})
-
-	console.log(resolut)
-	
-		if (resolut) {
+	const resolut =  await searchUser({"email" : dataUsers.email , "password" : dataUsers.password} , 'accounts_users', (db) => {
+		
+		if (db) {
 			req.session.name = uuidv4() ;
 			console.log(req.session.name)
 			res.status(200).send({'status' : true})
@@ -61,20 +49,16 @@ const usersfind = ( req , res , next) => {
 			
 			res.status(200).send({'status' : false})
 		}
-	
+	}) 
+	 
 	next()
 }
-
-
-
-
 router.use(usersfind)
 router.post('/singin' , (req , res) => {
-	
-	console.log('yp')
-
 })
 
 
 
 module.exports = router ;
+
+

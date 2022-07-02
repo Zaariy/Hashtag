@@ -21,7 +21,7 @@ const avatar = require('../images/avatar.jpg');
 function Navigation() {
 	const [menu , setmenu] = useState(false);
 	const [menuRight , setmenuRight] = useState(false) ;
-	// const [destroySession , setDesetroySession] = useState(false) ;
+
 
 		function logout(){
 			sessionStorage.clear()
