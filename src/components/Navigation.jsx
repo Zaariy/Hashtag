@@ -9,7 +9,7 @@ faBell ,
 faUserGroup ,
 faEnvelopeOpen , 
 faNewspaper,
-faUser , faSliders , faXmark
+faUser , faSliders , faXmark , faArrowRightFromBracket
 } from '@fortawesome/free-solid-svg-icons' ;
 
 const logo = require('../images/logoBlack.png') ; 
@@ -49,7 +49,7 @@ function Navigation() {
 					</div>
 					<div className='nav-profile'>
 						<div className='nav-right'>
-							<Link to={'#'} ><FontAwesomeIcon icon={faHouse} /></Link>
+							<Link to={'/home'} ><FontAwesomeIcon icon={faHouse} /></Link>
 							<Link to={'#'} ><FontAwesomeIcon icon={faBell} /></Link>
 							<Link to={'#'} ><FontAwesomeIcon icon={faUserGroup} /></Link>
 							<Link to={'#'} ><FontAwesomeIcon icon={faEnvelopeOpen} /></Link>
@@ -67,8 +67,8 @@ function Navigation() {
 					<li>
 						Socail
 						<ul>
-							<li><FontAwesomeIcon icon={faNewspaper} /><Link to={'#'}  >Newsfeed</Link></li>
-							<li><FontAwesomeIcon icon={faUser} /><Link to={'#'}  >Profile</Link></li>
+							<li><FontAwesomeIcon icon={faNewspaper} /><Link to={'/home'}  >Newsfeed</Link></li>
+							<li><FontAwesomeIcon icon={faUser} /><Link to={'/profile'}  >Profile</Link></li>
 							<li><FontAwesomeIcon icon={faBell} /><Link to={'#'}  >Notification</Link></li>
 						</ul>
 					</li>
@@ -80,15 +80,15 @@ function Navigation() {
 					<FontAwesomeIcon icon={faXmark} onClick={() => setmenuRight(!menuRight)} className='icon-xmark-close' />	
 				</div>
 				<div className='user-nav' >
-					<Link to={'#'} > <FontAwesomeIcon icon={faHouse} /> Home</Link>
+					<Link to={'/home'} > <FontAwesomeIcon icon={faHouse} /> Home</Link>
 					<Link to={'#'} ><FontAwesomeIcon icon={faBell} />Notification</Link>
 					<Link to={'#'} ><FontAwesomeIcon icon={faUserGroup} />Friend Request</Link>
 					<Link to={'#'} ><FontAwesomeIcon icon={faEnvelopeOpen} />Message</Link>
-					<Link to={'#'} ><FontAwesomeIcon icon={faUser} />Profile</Link>
+					<Link to={'/profile'} ><FontAwesomeIcon icon={faUser} />profile</Link>
 					<a href='/singin'  onClick={() => {
 						logout()
 						
-					}} ><FontAwesomeIcon icon={faUser} />logout</a>
+					}} ><FontAwesomeIcon icon={faArrowRightFromBracket} />logout</a>
 				</div>
 				
 			</div>

@@ -8,12 +8,8 @@
 
 .postes-news {
 	width: 60%;
-	/*background-color: #f8f9fa;*/
-	/*min-height:300px ;*/
-	/*position: relative;*/
-	margin-top: 300px;
 	height: 100%;
-	position: absolute;
+
 }
 @media (max-width : 1029px) {
 	.postes-news {
@@ -27,10 +23,10 @@
 }
 
 .postes-news .cart {
-	/*margin:  0 20px;*/
+	margin:   30px 0;
 	padding-left:10px  ;
 	padding-right: 10px ;
-	background-color: white;
+	background-color : var(--white-color) ;;
 	border-radius: 10px;
 	padding-top: 20px;
 	width: 100%;
@@ -97,7 +93,7 @@
 	position: absolute;
 	right: 0;
 	width: 250px;
-	background-color: white;
+	background-color : var(--white-color) ;;
 	padding: 10px;
 	border-radius: 5px;
 	border:  1px solid   #5858af;
@@ -105,11 +101,10 @@
 }
 .postes-news .cart .select ul  li {
 	font-size: 20px;
-	background-color: white;
+	background-color : var(--white-color) ;
 	margin : 10px  0 ;
 	padding: 10px ;
 	border-radius: 10px;
-	background-color: #f8f9fa;
 
 }
 .postes-news .cart .select ul li span {
@@ -123,16 +118,17 @@
 
 
 .post-comments {
+
 	width: 100%;
 	min-height: 400;
+	
+
 }
 
 .post-comments .cart-comments {
 	display: flex;
-	/*align-items: center;*/
 	max-width: 90%;
 	margin: 30px 0 ;
-    /*background-color:;*/
 }
 .post-comments .cart-comments img {
 	width: 50px;
@@ -145,7 +141,7 @@
 	flex-direction: column;
 	justify-content: center;
 	margin-left: 10px;
-	background-color: #f8f9fa ;
+	background-color : var(--medium-white-color) ;
 	width: 100%;
 	padding-top:10px ;
 	padding-left: 10px;
@@ -191,3 +187,32 @@
 	margin-left: 10px;
 }
 /*End Comments*/
+
+/*Start Likes*/
+.likes  {
+	width : 100%;
+	height: 50px;
+
+}
+
+.likes .content {
+	height: 100%;
+	border-top : 1px solid #f2f5f7 ;
+	border-bottom : 1px solid #f2f5f7 ;
+}
+.likes .content ul {
+	display: flex;
+	height: 100%;
+	align-items: center;
+	justify-content : space-around ;
+	cursor: pointer;
+
+}
+.likes .content ul li svg {
+	margin-right: 5px;
+	color : inherit !important ;
+}
+
+
+
+/*End Likes*/

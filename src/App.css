@@ -9,6 +9,13 @@
   box-sizing: border-box;
 }
 
+:root {
+  --medium-white-color :  #f8f9fa ;
+  --white-color : white ;
+  --black-color : black; 
+  --blue-color : #50b5ff ;
+  --gray-color : #777d74
+}
 .container {
 
   margin-left: 20px;
@@ -20,7 +27,12 @@
   margin-left: 80px;
   height: 100%;
 }
-
+@media (max-width : 1029px) {
+  .containerMainpage {
+      display: flex;
+  justify-content: center;
+  }
+}
 @media (max-width : 767px) {
 
   .container {
@@ -28,8 +40,8 @@
     margin-left: 15px;
   }
   .containerMainpage {
-    margin-right: 20px;
-    margin-left: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
 
   }
   .box-alert .content {
@@ -40,7 +52,8 @@
 
 .mainpage {
   background-color: #f8f9fa;
-  min-height: 200vh;
+  /*min-height: 200vh;*/
+  padding-top: 35px;
 }
 .danger {
   color: red;

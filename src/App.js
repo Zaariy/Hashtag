@@ -2,6 +2,7 @@ import './App.css';
 import SingUp from './components/SingUp.jsx' ;
 import Login from './components/LogIn.jsx' ;
 import MainPage from './components/Mainpage.jsx' ;
+import Profile from './components/Profile.jsx' ;
 import {useEffect , useState} from 'react' ;
 import {Routes , Route , BrowserRouter  } from 'react-router-dom' ;
 
@@ -25,7 +26,7 @@ function App() {
             sessionStorage.clear();
           }
          
-          console.log(sessionStorage.getItem('session'))
+         
       })
 
 
@@ -37,9 +38,13 @@ function App() {
         <Routes>
         {
           sessionStorage.getItem('session') || session !== false ? (
-
+            // this route just for users have sesstion 
+            // you can't access this route if you are not  
+            // Sinup  
+            <>
               <Route path='/home' element={<MainPage />} />
-
+              <Route path='/profile' element={<Profile />} />
+            </>
             ) : (
 
             <Route path='*' element={ <Login /> }/>

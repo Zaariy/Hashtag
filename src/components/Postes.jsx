@@ -1,7 +1,9 @@
 import React , {useState} from 'react' ;
 import '../css/postes.css' ;
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome' ;
-import { faPaperPlane} from '@fortawesome/free-solid-svg-icons'; 
+import { faPaperPlane , 
+	faThumbsUp, faMessage , faShare
+} from '@fortawesome/free-solid-svg-icons'; 
 
 const img =  require('../images/avatar.jpg') ;
 const imgtow = require('../images/backgroundsinguptow.jpg');
@@ -13,11 +15,11 @@ const data =  {
 }
 
 
-function Comments () {
+function Comments ({event}) {
 	const [dataComment , setDataComment ] =useState([data])
 
 	return (
-		<div className='post-comments'>
+		<div className='post-comments' style={{'display' : event ? 'block' : 'none' }}>
 			{
 				dataComment.map((data , index) => {
 					return (
@@ -43,9 +45,30 @@ function Comments () {
 		)
 }
 
+function Likes() {
+	const [state , setState ] = useState(false) ;
+	return (
+		<>
+		<div className='likes'>
+			<div className='content' >
+				<ul>
+					<li onClick={(e) => e.target.style.color !== 'red' ? e.target.style.color =  'red' : e.target.style.color =  'black'} ><FontAwesomeIcon  icon={faThumbsUp} /> Like</li>
+					<li onClick={() => setState(!state)} ><FontAwesomeIcon  icon={faMessage} />comments</li>
+					<li><FontAwesomeIcon  icon={faShare}  />share</li>
+				</ul>
+			</div>
+		</div>
+		<Comments event={state} />
+		</>
+		)
+}
+
 function Postes() {
 
 	const [clickState , setClickState] = useState(false) ;
+	// add id 
+
+
 	const a = [1,1,1]
 	return (
 
@@ -65,8 +88,8 @@ function Postes() {
 						 	</div>
 					 	</div>
 					 	<div className='select'>
-					 		<span onClick={() => setClickState(!clickState)}>...</span>
-					 		<ul style={{'visibility' : clickState ? 'visible' : 'hidden' }}>
+					 		<span onClick={() =>  setClickState(!clickState)} >...</span>
+					 		<ul style={{'visibility' : clickState ? 'visible' : 'hidden'}} >
 					 			<li>
 					 				Save this poste
 					 				<span>seve this on your account</span>
@@ -88,7 +111,7 @@ function Postes() {
 						computing, computer software, quantum computing, e-commerce, and consumer electronics
 					</p>
 					<img src={imgtow} alt='myphoto' />
-					<Comments />
+					<Likes />
 				</div>
 						)
 					})
