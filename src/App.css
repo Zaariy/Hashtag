@@ -10,7 +10,7 @@
 }
 
 :root {
-  --medium-white-color :  #f8f9fa ;
+  --medium-white-color :  #f7f8f9;
   --white-color : white ;
   --black-color : black; 
   --blue-color : #50b5ff ;
@@ -55,6 +55,7 @@
   /*min-height: 200vh;*/
   padding-top: 35px;
 }
+
 .danger {
   color: red;
   font-weight: 300;

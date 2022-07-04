@@ -6,10 +6,11 @@ import {faBars ,
 faMagnifyingGlass ,
 faHouse ,
 faBell ,
+faUserPen ,
 faUserGroup ,
 faEnvelopeOpen , 
 faNewspaper,
-faUser , faSliders , faXmark , faArrowRightFromBracket
+faUser,faUserGear, faSliders , faXmark , faArrowRightFromBracket
 } from '@fortawesome/free-solid-svg-icons' ;
 
 const logo = require('../images/logoBlack.png') ; 
@@ -21,6 +22,7 @@ const avatar = require('../images/avatar.jpg');
 function Navigation() {
 	const [menu , setmenu] = useState(false);
 	const [menuRight , setmenuRight] = useState(false) ;
+	const [clickimgProfile , setClickImgProfile] =  useState(false)
 
 
 		function logout(){
@@ -55,8 +57,17 @@ function Navigation() {
 							<Link to={'#'} ><FontAwesomeIcon icon={faEnvelopeOpen} /></Link>
 						</div>
 						<div className='profile'>
-							<img  src={avatar} alt='avatar' />
+							<img  src={avatar} alt='avatar' onClick={() => setClickImgProfile(!clickimgProfile)} />
 							<p>Sara</p>
+							<div className='profile-click-menu' style={{"visibility" : clickimgProfile ? 'visible' : 'hidden'}}>
+								<span> Hello Sart </span>
+								<ul>
+									<li><FontAwesomeIcon  icon={faUser} /><Link to={'/profile'} >My Profile </Link> </li>
+									<li><FontAwesomeIcon  icon={faUserPen} /><Link to={'/profile'} >Edit Profile</Link></li>
+									<li><FontAwesomeIcon  icon={faUserGear} /><Link to={'/profile'} >Account Setting</Link></li>
+									<li><FontAwesomeIcon  icon={faArrowRightFromBracket} /><Link to={'/singin'} onClick={() => logout()} >Logout</Link></li>
+								</ul>
+							</div>
 						</div>
 						<FontAwesomeIcon icon={faSliders} onClick={(e) => setmenuRight(!menuRight)} className='icon-sliders-right' />
 					</div>

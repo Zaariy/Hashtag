@@ -159,7 +159,7 @@ nav .content .nav-profile .nav-right {
 }
 nav .content .nav-profile .nav-right svg {
 	font-size: 22px ;
-	color: black;
+	color: var(--black-color);
 }
 nav .content .nav-profile .nav-right a {
 	margin: 0 12px;
@@ -168,6 +168,7 @@ nav .content .nav-profile .nav-right a {
 nav .content .profile {
 	display: flex;
 	align-items: center;
+	position: relative;
 }
 nav .content .profile img {
 	width: 50px !important;
@@ -229,7 +230,7 @@ nav .menu-side-body .ul-socail a {
 	margin-left: 5px;
 	font-size: 17px;
 	font-weight: 300;
-	color: black;
+	color: var(--black-color)	;
 }
 
 nav .nav-profile .icon-sliders-right {
@@ -251,6 +252,11 @@ nav .nav-right-mb {
 	padding : 0 10px ;
 	background-color: white;
 	/*visibility: visible;*/
+}
+@media(max-width : 757px) {
+	nav .nav-right-mb {
+		width: 100% ;
+	}
 }
 
 nav .nav-right-mb .head {
@@ -296,4 +302,49 @@ nav .nav-right-mb .user-nav svg {
 	font-size: 23px;
 	margin-right: 10px;
 	padding: 5px;
+}
+
+/* profile-click-menu  */
+
+nav  .profile-click-menu {
+	height: 400px;
+	position: absolute;
+	left:-200px ;
+	top: 80px ;
+	width: 270px;
+	background-color: var(--white-color);
+	border-radius: 10px;
+	box-shadow: 0px 1px 30px #59646b6e;
+
+
+}
+nav .profile-click-menu span {
+	font-size: 20px;
+	display: block;
+	/*padding: 20px 0;*/
+	/*font-weight: 400 ;*/
+	padding: 20px 20px ;
+	border-bottom: 1px solid #03a9f424;
+}
+
+nav .profile-click-menu ul  {
+	height: 100%;
+	width: 100%;
+}
+nav .profile-click-menu ul li {
+	margin: 30px  0;
+	color: var(--gray-color);
+	font-size: 20px;
+	padding: 10px 20px ;
+	transition: background-color 0.5s;
+}
+nav .profile-click-menu ul li:hover {
+	background-color: #03a9f424;
+}
+nav .profile-click-menu ul li svg {
+	margin-right: 10px;
+	font-size: 23px;
+}
+nav .profile-click-menu ul li a {
+	color: var(--black-color);
 }

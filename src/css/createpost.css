@@ -8,7 +8,7 @@
 }
 @media  (max-width : 1029px) {
 	.create-post {
-		width: calc(100% - 160px);
+		width: 100%;
 	}
 }
 @media (max-width : 757px) {
@@ -64,18 +64,19 @@
 .create-post button {
 	font-size: 16px;
     padding: 5px 20px;
-    background-color: black;
+    background-color: var(--blue-color);
     color : var(--white-color) ;;
     border-radius: 5px;
     cursor: pointer;
+    border: 1px solid var(--blue-color);
 }
 
 .create-post .text  span {
-    border: 1px solid black;
+    border: 2px solid var(--blue-color);
     width: calc(100% - 103px);
     padding: 10px 0px 10px 10px;
     border-radius: 50px;
-    background-color: #f4f7f9;
+    background-color: var(--medium-white-color);
     display: block;
     opacity: 0.7;
     cursor: pointer;
@@ -85,6 +86,7 @@
 .pop-window {
 	position: fixed;
 	top : 0 ;
+	left: 0;
     width: 100%;
     height: 100vh;
     background-color: #00000080;
@@ -110,6 +112,7 @@
     	padding: 0 10px
 	}
 }
+
 .pop-window .content form {
 	width: 100%;
 	height: 100%;

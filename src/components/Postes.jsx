@@ -4,9 +4,11 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome' ;
 import { faPaperPlane , 
 	faThumbsUp, faMessage , faShare
 } from '@fortawesome/free-solid-svg-icons'; 
+import CreatePost from './Createpost.jsx' ;
+import Story from './Story.jsx' ; 
+import Groups from './Groups.jsx' ;
 
 const img =  require('../images/avatar.jpg') ;
-const imgtow = require('../images/backgroundsinguptow.jpg');
 var today = new Date();
 const data =  {
 	name : 'hamda' , 
@@ -16,7 +18,7 @@ const data =  {
 
 
 function Comments ({event}) {
-	const [dataComment , setDataComment ] =useState([data])
+	const [dataComment  ] =useState([data])
 
 	return (
 		<div className='post-comments' style={{'display' : event ? 'block' : 'none' }}>
@@ -63,8 +65,8 @@ function Likes() {
 		)
 }
 
-function Postes() {
-
+function Postes(props) {
+	// console.log(props.child[0])
 	const [clickState , setClickState] = useState(false) ;
 	// add id 
 
@@ -73,49 +75,68 @@ function Postes() {
 	return (
 
 		<div className='containerMainpage'>
-			<div className='postes-news'>
-				{
-					a.map((data , index) => {
+			
+			<div className='all-postes-content'>
+				<div className='postes-news-all'>
+					<CreatePost />
+					<div className='postes-news'>
+					{
+						a.map((data , index) => {
 
-						return (
-							<div className='cart' key={index}>
-					<div className='head'>
-					 	<div className='info'>
-						 	<img src={img} alt='logo' />
-						 	<div className='text'>
-						 		<span>Sara</span>
-							 	<span>2020-10-15</span>
-						 	</div>
-					 	</div>
-					 	<div className='select'>
-					 		<span onClick={() =>  setClickState(!clickState)} >...</span>
-					 		<ul style={{'visibility' : clickState ? 'visible' : 'hidden'}} >
-					 			<li>
-					 				Save this poste
-					 				<span>seve this on your account</span>
-					 			</li>
-					 			<li>
-					 				Notification 
-					 				<span>turn off notification this person</span>
-					 			</li>
-					 			<li>
-					 				Report
-					 				<span>report this person </span>
-					 			</li>
-					 		</ul>
-					 	</div>
+							return (
+								<div className='cart' key={`${index}h`}>
+									<div className='head' >
+									 	<div className='info'>
+										 	<img src={`https://picsum.photos/50/50?random=${index}`} alt='logo' />
+										 	<div className='text'>
+										 		<span>Sara</span>
+											 	<span>2020-10-15</span>
+										 	</div>
+									 	</div>
+									 	<div className='select'>
+									 		<span onClick={() =>  setClickState(!clickState)} >...</span>
+									 		<ul style={{'visibility' : clickState ? 'visible' : 'hidden'}} >
+									 			<li>
+									 				Save this poste
+									 				<span>seve this on your account</span>
+									 			</li>
+									 			<li>
+									 				Notification 
+									 				<span>turn off notification this person</span>
+									 			</li>
+									 			<li>
+									 				Report
+									 				<span>report this person </span>
+									 			</li>
+									 		</ul>
+									 	</div>
+									</div>
+									<p>
+										Google LLC is an American multinational technology company that focuses on
+										artificial intelligence, search engine technology, online advertising, cloud 
+										computing, computer software, quantum computing, e-commerce, and consumer electronics
+									</p>
+									<img src={`https://picsum.photos/150/150?random=${index}`} alt='myphoto' />
+									<Likes />
+					        	</div>
+							)
+						})
+					}
 					</div>
-					<p>
-						Google LLC is an American multinational technology company that focuses on
-						artificial intelligence, search engine technology, online advertising, cloud 
-						computing, computer software, quantum computing, e-commerce, and consumer electronics
-					</p>
-					<img src={imgtow} alt='myphoto' />
-					<Likes />
 				</div>
-						)
-					})
+				<div className='childs-props'>
+
+				{
+					props.child ?  props.child.map((ele) => {
+						return ele
+					}) : (
+						<>
+						<Story />
+						<Groups />
+						</>
+					)
 				}
+				</div>
 			</div>
 		</div>
 		)

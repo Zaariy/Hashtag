@@ -1,0 +1,96 @@
+.stories {
+	width: 100%;
+	border-radius: 10px;
+	background-color: var(--white-color);
+}
+
+.stories .content {
+	padding: 20px 30px;
+	max-height: 420px;
+	overflow: hidden;
+}
+.stories .header {
+	width: 100%;
+	height: 60px;
+	border-bottom: 1px solid var(--medium-white-color);
+	display: flex;
+	align-items: center;
+
+
+
+}
+
+.stories .header span {
+	display: block;
+    font-size: 25px;
+    letter-spacing: 1.2px;
+    padding: 40px ;
+    
+    /*padding:  10px 0;*/
+}
+
+.stories .content .add-stories {
+	display: flex;
+	/*flex-direction: column;*/
+	width: 100%;
+	align-items: center;
+	gap:  15px;
+
+}
+.stories .content .add-stories > span {
+
+	border:  2px solid var(--medium-white-color);
+	/*font-size: 20px;*/
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+
+
+}
+.stories .content  .text {
+	display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.stories .content .text span {
+	margin: 5px 0;
+
+}
+.stories .content  .text span:last-of-type {
+	font-weight: 300;
+	font-size: 15px;
+}
+
+.stories .content .cart-story {
+	display: flex;
+	gap : 15px;
+	margin-top: 10px ;
+}
+.stories .content .cart-story  img{
+
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	cursor: pointer;
+	
+	
+}
+.stories  button {
+	width: calc(100% - 60px);
+	background-color: var(--blue-color);
+	color : var(--white-color);
+	border: 1px solid var(--blue-color);
+	font-size: 18px;
+	height: 40px;
+	border-radius: 10px;
+	cursor: pointer;
+	margin: 15px  30px;
+}
+.active-stroy {
+	border:  3px solid var(--blue-color);
+}
+

@@ -116,7 +116,7 @@
 	font-weight: 300;
 
 }
-.profile-page .content {
+.profile-page  header .content {
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -300,30 +300,53 @@
     height: 100%;
 }
 .profile-page .friends-user-profile button {
-	padding: 13px 27px;
+	padding: 10px 24px;
     background-color: var(--gray-color);
     color: var(--white-color);
-    border-radius: 10px;
+    border-radius: 5px;
+    font-size: 14px;
     border: none;
     cursor: pointer;
     margin-right: 8px;
 }
+.profile-page .friends-user-profile button:hover {
+	opacity: 0.8;
+}
+.profile-page .friends-user-profile button svg {
+	font-size: 18px;
+	margin-right: 5px;
+}
+/*fro samll screens */
+@media (max-width:  576px ) {
+	.profile-page .friends-user-profile .cart-friend {
+	    flex-direction: column;
+	    align-items: center;
+	    padding: 5px;
+	}
+	.profile-page .friends-user-profile .cart-friend .text {
+		flex-direction: column;
+		gap: 6px !important;
+	}
+}
+
 .profile-page .friends-user-profile .content {
 	display: flex;
     width: 100%;
     flex-wrap: wrap;
     flex-direction: row;
-    gap: 10px;
+    gap: 12px;
+    justify-content: space-between;
+
 }
 @media (max-width : 990px) {
 	.profile-page .friends-user-profile .content {
 		flex-direction: column;
 		align-items: center;
 	}
-	.profile-page .friends-user-profile .cart-friens {
+	.profile-page .friends-user-profile .cart-friend {
 		width: 100% !important;
 	}
-	.profile-page .friends-user-profile .cart-friens .text {
+	.profile-page .friends-user-profile .cart-friend .text {
 		display: flex;
 	    align-items: center;
 
@@ -332,10 +355,124 @@
 
 }
 
-.profile-page .friends-user-profile .cart-friens {
+.profile-page .friends-user-profile .cart-friend {
 	display: flex;
     justify-content: space-between;
     width: 49%;
     align-items: center;
     border: 1px solid var(--gray-color);
 }
+
+.profile-page .friends-user-profile .cart-friend span {
+	margin: 5px 0;
+	text-align: center;
+	font-size: 18px;
+	/*font-weight: 300;*/
+}
+.profile-page .friends-user-profile .cart-friend span:last-of-type {
+	font-weight: 300;
+	font-size: 16px;
+} 
+/* Timeline */	
+.create-post {
+	margin-top: 50px;
+	width: 100% !important;
+}
+
+/* .side Photos */
+
+.profile-page .side-photos {
+	width: 30%;
+	background-color: var(--white-color);
+	border-radius: 10px;
+	/*max-height: 350px;*/
+	/*overflow: hidden;*/
+}
+.profile-page .side-photos .content {
+	padding: 20px 30px ;
+	width: 100%;
+}
+.profile-page .side-photos .head-photos {
+	height: 50px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid var(--medium-white-color);
+}
+
+.profile-page .side-photos .content span:first-of-type {
+	font-size: 25px;
+	/*font-weight: 300;*/
+	letter-spacing: 1.2px;
+}
+.profile-page .side-photos .content span:last-of-type {
+	font-weight: 300;
+	color: var(--blue-color);
+	letter-spacing: 1.2px;
+	cursor: pointer;
+}
+
+.profile-page .side-photos .cart-side-photo {
+	height: 100%;
+	display: flex;
+	gap: 5px;
+	flex-wrap: wrap;
+	padding: 10px 10px;
+
+
+	justify-content: center;
+
+
+}
+.profile-page .side-photos .cart-side-photo img {
+	width: 70px;
+	height: 70px;
+	cursor: pointer;
+
+}
+@media(max-width : 757px) {
+	.profile-page .side-photos .cart-side-photo  {
+
+		cursor: pointer;
+		justify-content: center !important;
+
+	}
+}
+.all-postes-content {
+	height: 100%;
+}
+
+.profile-page .cart-side-photo  .cart-friend {
+	display: flex;
+    flex-direction: column;
+}
+.profile-page .cart-side-photo  .cart-friend   .name {
+	display: block  !important;
+    font-size: 17px !important;
+    text-align: center;
+    color: var(--black-color) !important;
+
+}
+@media (max-width : 1028px) {
+	 .all-postes-content .side-photos {
+		width: 100%;
+	}
+	 .all-postes-content .side-photos .cart-side-photo {
+		justify-content: flex-start;
+	}
+	 .all-postes-content .postes-news {
+		width: 100%;
+	}
+	
+}
+
+
+.all-postes-content   .side-photos {
+	width: 100% ;
+	margin-bottom: 20px;
+}
+
+.all-postes-content .side-photos {
+	margin-bottom: 20px;
+}
+

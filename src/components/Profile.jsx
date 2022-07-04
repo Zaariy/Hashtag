@@ -2,14 +2,17 @@ import React , {useState} from 'react' ;
 import '../css/profile.css';
 import Navigation from './Navigation.jsx' ;
 import Postes from './Postes.jsx' ;
-import CreatePost from './Createpost.jsx' ;
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome' ;
-import {faPencil , faGear , faMessage , faThumbsUp} from '@fortawesome/free-solid-svg-icons'; 
+import {faPencil , 
+	faGear , 
+	faMessage , 
+	faThumbsUp , 
+	faCheck} from '@fortawesome/free-solid-svg-icons'; 
 
 // test Photos 
-const imgOne =  require('../images/person.jpg');
 const imgProfile =  require("../images/avatar.jpg") ;
-const imgTow =  require('../images/sea.jpg') ;
+//for testing
+const images = [1,1,1,1,1,1 ,1,1,1,1,1,1] ;
 
 
 
@@ -19,7 +22,7 @@ function HeaderProfile() {
 		const element =  document.querySelectorAll('.profile-page .nav ul li') ;
 		element.forEach(ele => {
 			
-				if (ele ==  e.target) {
+				if (ele ===  e.target) {
 					ele.classList.add('active-item-nav-profile')
 					setComponent(e.target.textContent)
 				}else {
@@ -33,15 +36,20 @@ function HeaderProfile() {
 		// this function it will runder component
 		// automaticly when user click on slider
 		// prfile 
-		if (componentRunder === 'Timeline')  {
-			return <> <CreatePost /><Postes /> </>
-		}else if (componentRunder === 'Photos') {
-			return <Photos />
-		}else if (componentRunder === 'About') {
-			return <About />
-		} else if (componentRunder === 'Friend') {
-			return <Friends />
-		}
+
+		
+
+			if (componentRunder === 'Timeline')  {
+				return <Postes child={[<Sides /> , <SidesFriends />]} />  
+			}else if (componentRunder === 'Photos') {
+				return <Photos />
+			}else if (componentRunder === 'About') {
+				return <About />
+			} else if (componentRunder === 'Friend') {
+				return <Friends />
+			}
+
+		
 	}
 	return (
 		<>
@@ -83,9 +91,7 @@ function HeaderProfile() {
 		)
 }
 
-function Photos () {
-	//for testing
-	const images = [imgOne , imgProfile , imgTow] ;
+function Photos () {	
 	return (
 		<div className='containerMainpage' >
 		<div className='photos-profile' > 
@@ -96,7 +102,7 @@ function Photos () {
 					images.map((img , index) => {
 						return (
 							<div className='cart-image' key={index} >
-								<img src={img} alt='img' />
+								<img src={`https://picsum.photos/250/250?random=${index}`} alt='img' />
 								<div className='info'>
 									<ul>
 										<li onClick={(e) => e.target.style.color !== 'red' ? e.target.style.color =  'red' : e.target.style.color =  'white'} > <span>10</span> <FontAwesomeIcon  icon={faThumbsUp} /></li>
@@ -172,7 +178,7 @@ function About () {
 
 function Friends () {
 	//for testing 
-	const a = [1,1,1,1,1,1,1,1]
+	const a = [1,1,1,1,1,1,1,1,1,1,1]
 	return (
 		<div className='containerMainpage' >
 			<div className='friends-user-profile'> 
@@ -181,17 +187,17 @@ function Friends () {
 					{
 						a.map((ele , index) => {
 							return (
-								<div className='cart-friens' key={index} >
+								<div className='cart-friend' key={index} >
 									
 										<div className='text'>
-											<img src={imgOne} alt='logo' />
+											<img src={`https://picsum.photos/150/150?random=${index}`} alt='logo' />
 											<div className='info' > 
 												<span>Mohamed</span>
-												<span>6</span>
+												<span>15 friends </span>
 											</div> 
 											
 										</div>
-										<button>Friends</button>
+										<button><FontAwesomeIcon icon={faCheck} /> Friend</button>
 									</div>
 								)
 						})
@@ -201,6 +207,55 @@ function Friends () {
 		</div>
 		)
 }
+function Sides() {
+	return (
+		<div className='side-photos'> 
+			<div className='content'>
+				<div className='head-photos'>
+					<span> Photos </span>
+					<span> Add Photo </span >
+				</div>
+				<div className='cart-side-photo' >
+					{
+						images.map((img , index) => {
+							return (
+								<img src={`https://picsum.photos/200/300?random=${index}`} alt="logo" key={`photo${index}`}/> 
+								)
+						})
+					}
+				</div>
+				
+			</div>
+		</div>
+		)
+} 
+function SidesFriends () {
+	return (
+		<div className='side-photos'> 
+			<div className='content'>
+				<div className='head-photos'>
+					<span> Friends </span>
+					<span> Add Friends </span >
+				</div>
+				<div className='cart-side-photo' >
+					{
+						images.map((img , index) => {
+							return (
+								<div className='cart-friend' key={index}>
+
+								<img src={`https://picsum.photos/200/300?random=${index}`} alt="logo" /> 
+								<span className='name'>Hamda</span>
+								</div>
+								)
+						})
+					}
+
+				</div>
+				
+			</div>
+		</div>
+		)
+} 
 
 function  Profile() {
 

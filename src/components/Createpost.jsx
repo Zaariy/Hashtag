@@ -5,12 +5,10 @@ import {faXmark} from '@fortawesome/free-solid-svg-icons' ;
 import '../css/createpost.css' ;
 
 const img =  require('../images/avatar.jpg') ;
-const imgtow = require('../images/backgroundsinguptow.jpg');
-
 
 /*
- I did 'PopWindow and CreatePostChild' as childs 
- to access just one state 
+ I did 'PopWindow and CreatePostChild' as component childs 
+ to access one state 
 */
 
 function CreatePost() {
@@ -23,8 +21,7 @@ function CreatePost() {
 	function showUploadImg (event) {
 		// This function shows us an image we had selected before
 		
-		const getElementImg = document.querySelector('.upload-image img') ;
-		setSelectedImg(URL.createObjectURL(event.target.files[0]))
+				setSelectedImg(URL.createObjectURL(event.target.files[0]))
 	}
 
 	function PopWindow () {
@@ -64,7 +61,7 @@ function CreatePost() {
 		{
 			state ? <PopWindow  /> : <></>
 		}
-				<div className='containerMainpage '>
+				
 				<section className='create-post'>
 					<h2>Create Post</h2>
 					<div className='text'>
@@ -77,7 +74,7 @@ function CreatePost() {
 						<button> &#128512; <span>Felling/Acctive</span></button>
 					</div>
 				</section>
-				</div>
+				
 					
 		</div>
 	)
