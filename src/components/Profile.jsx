@@ -1,6 +1,7 @@
-import React , {useState} from 'react' ;
+import React , {useState , useEffect} from 'react' ;
 import '../css/profile.css';
 import Navigation from './Navigation.jsx' ;
+import axios from 'axios' ;
 import Postes from './Postes.jsx' ;
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome' ;
 import {faPencil , 
@@ -120,6 +121,13 @@ function Photos () {
 }
 
 function About () {
+
+	// const [data , setData ] =  useState('')
+	useEffect(() => {
+		
+		axios.post('/route/information_user').then((data) => console.log(data))
+	} , [])
+
 	return (
 		<div className='containerMainpage' >
 		<div className='about-user-profile' >

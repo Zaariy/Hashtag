@@ -127,8 +127,12 @@ function Postes(props) {
 				<div className='childs-props'>
 
 				{
-					props.child ?  props.child.map((ele) => {
-						return ele
+					props.child ?  props.child.map((ele , index) => {
+						return (
+								<div key={index}>
+									ele
+								</div>
+								)
 					}) : (
 						<>
 						<Story />

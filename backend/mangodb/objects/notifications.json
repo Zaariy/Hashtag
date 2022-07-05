@@ -1,9 +1,0 @@
-{
-	
-	"notifications" : [{
-		"_id_notification"  : "" ,
-		"_id_person" : "" , 
-		"message" : "",
-		"data" : "",
-	}]
-}
