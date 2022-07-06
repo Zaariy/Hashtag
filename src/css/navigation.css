@@ -173,6 +173,7 @@ nav .content .profile {
 nav .content .profile img {
 	width: 50px !important;
 	border-radius: 50%;
+	height: 50px;
 	/*border : 3px solid black ;*/
 	margin-right: 8px;
 	cursor: pointer;

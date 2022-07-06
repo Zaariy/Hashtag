@@ -3,6 +3,7 @@ import SingUp from './components/SingUp.jsx' ;
 import Login from './components/LogIn.jsx' ;
 import MainPage from './components/Mainpage.jsx' ;
 import Profile from './components/Profile.jsx' ;
+import SettingsProfile from './components/Settingsprofile.jsx' ;
 import {useEffect , useState} from 'react' ;
 import {Routes , Route , BrowserRouter  } from 'react-router-dom' ;
 
@@ -12,7 +13,7 @@ function App() {
 
   useEffect(() => {
 
-      fetch('/route/session' , {method : 'POST'}).then((data) => data.json()).then((data) => {
+      fetch('/route/session' , {method : 'GET'}).then((data) => data.json()).then((data) => {
           if (data.session !== false) {
             setSession(data.session);
           }else {
@@ -44,6 +45,7 @@ function App() {
             <>
               <Route path='/home' element={<MainPage />} />
               <Route path='/profile' element={<Profile />} />
+              <Route path='/edit-profile' element={<SettingsProfile />} />
             </>
             ) : (
 

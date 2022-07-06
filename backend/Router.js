@@ -4,6 +4,9 @@ const session = require('express-session') ;
 const uniqid =  require('uniqid') ;
 const body =  require('body-parser') ;
 const mongoose = require('mongoose') ;
+const fs = require('fs') ;
+const path =  require('path') ;
+const multer = require('multer');
 
 ////////////////////  Databases ////////////////////////////
 const url =  'mongodb://localhost:27017/hashtag' ;
@@ -36,9 +39,7 @@ const SchemaAccount = new mongoose.Schema({
 })
 
 const usersInframtionSchema = new mongoose.Schema({
-	about : String,
-		poster_img : String ,
-		background_img : String,
+		about : String,
 		mobile : String, 
 		address : String ,
 		brith_date : String, 
@@ -46,8 +47,7 @@ const usersInframtionSchema = new mongoose.Schema({
 		gender : String , 
 		website : String ,
 		socil_link : String, 
-		followers : Number , 
-		following : Number
+		
 })
 
 const phostesSchema = new mongoose.Schema({
@@ -74,11 +74,16 @@ const SettingsUserSchema =  new mongoose.Schema({
 	mode : String
 	})
 const SchemaInfo_users = new mongoose.Schema({
+	full_Name : String ,
 	id_user :  String ,
+	poster_img : String ,
+	background_img : String,
 	information : usersInframtionSchema ,
 
 	friends: Array , 
 	postes : [ phostesSchema ],
+	followers : Number , 
+	following : Number ,
 
 	notifications : [notificitioSchema],
 
@@ -89,15 +94,17 @@ const info_users = mongoose.model('info_users' , SchemaInfo_users )
 
 //////////////////////////////////////////////////////////////////
 
+const oneDay = 1000 * 60 * 60 * 24;
 
 router.use(session({
 
 	secret : uniqid(), 
 	resave : false ,
-	saveUninitialized : true 
+	saveUninitialized : true ,
+	cookie : {maxAge : oneDay}
 }))
 
-router.post('/session' , (req , res) => {
+router.get('/session' , (req , res) => {
 	if (req.session.name) {
 		res.status(200).send({"session" : req.session.name})
 	}else {
@@ -105,7 +112,6 @@ router.post('/session' , (req , res) => {
 	}
 
 })
-
 router.post('/logout' , (req ,res) => {
 	req.session.destroy()
 	console.log('session destroy')
@@ -123,10 +129,11 @@ router.post('/singup' , (req , res) => {
 		})
 		const informationUsers = new info_users({
 			id_user : same_id ,
+			full_Name : resData.full_Name,
+			poster_img : "/images/unknown.jpg" ,
+			background_img : "/images/unknown.jpg",
 			information : {
 				about : "Unknown",
-				poster_img : "Unknown" ,
-				background_img : "Unknown",
 				mobile : "Unknown", 
 				address : "Unknown" ,
 				brith_date : "Unknown" , 
@@ -134,9 +141,9 @@ router.post('/singup' , (req , res) => {
 				gender : "Unknown"  , 
 				website : "Unknown" ,
 				socil_link : "Unknown", 
-				followers : 0 , 
-				following : 0 ,
+				
 			},
+
 			friends : [] ,
 			postes : [
 			{
@@ -146,6 +153,8 @@ router.post('/singup' , (req , res) => {
 				likes : 1 ,
 			}
 			],
+			followers : 0 , 
+			following : 0 ,
 			notifications : [] ,
 			settings : {
 				mode : 'light'
@@ -167,11 +176,11 @@ router.post('/singin' , (req , res) => {
 	users.findOne(query)
 	.then(data => {
 
-		console.log(data)
+		
 		if (data != undefined) {
 			req.session.name = uniqid()
 			req.session.id_user_login = data.id_user
-
+			
 			res.send({"status" : true})
 
 
@@ -180,27 +189,23 @@ router.post('/singin' , (req , res) => {
 		}
 		
 	} ).then(err => {
-		console.log(err)
+		if (err) throw error
 	})
 
 })
 
-router.post('/information_user' ,(req , res) => { 
-	const searchDataUser = (callBack) => {
+router.get('/information_user' ,(req , res) => { 
+	const searchDataUser = async (callBack) => {
 			if (req.session.name) {
-				console.log(req.session.id_user_login)
-				info_users.findOne({"id_user"  : req.session.id_user_login})
+			await	info_users.findOne({"id_user"  : req.session.id_user_login})
 					.then(data => {
-					console.log(data)
+					
 					res.send(data)
 				}).then(err => console.log(err))
 			}
-
+			
 			callBack()
-
 	}
-
-
 	function endreq () {
 		res.end()
 	}
@@ -209,11 +214,47 @@ router.post('/information_user' ,(req , res) => {
 })
 
 
+router.post('/update_info' , (req , res) => {
+		const resData =  JSON.parse(Object.keys(req.body)[0])
+		if (req.session.name) {
+			info_users.findOneAndUpdate({ "id_user" :req.session.id_user_login} , {full_Name : resData.full_Name} , {new : true})
+			.then((info) => console.log(info))
+
+			info_users.findOneAndUpdate({ "id_user" :req.session.id_user_login} , {information : resData} , {new : true})
+			.then((info) => {
+				res.send({'status' : true})
+			} )
+		}else {
+		res.end()
+		}
+
+})
 	
+// Upload images //
 
+const storage = multer.diskStorage({
+	destination: (req , file , callBack) => {
 
-	
+		callBack(null , 'images/profile' )
+	},
+	filename : (req , file , callBack) => {
+		console.log(file)
 
+		const uniqName = uniqid() + file.originalname;
+		if (req.session.id_user_login) {
+			info_users.findOneAndUpdate({"id_user" : req.session.id_user_login} , {"poster_img" : `/images/profile/${uniqName}`}).then((data) => console.log(data))
+		}
+		callBack(null ,  uniqName)
+	}
+})
+const mult = multer({
+	storage : storage 
+})
+
+router.post('/update_images' , mult.single('img') , (req , res) => {
+
+	res.redirect('/edit-profile')
+})
 module.exports = router ;
 
 

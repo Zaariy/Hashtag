@@ -1,4 +1,5 @@
-import React , {useState} from 'react' ;
+import React , {useState , useEffect} from 'react' ;
+import axios from 'axios' ;
 import '../css/navigation.css' ;
 import {Link} from 'react-router-dom' ;
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome' ;
@@ -13,17 +14,21 @@ faNewspaper,
 faUser,faUserGear, faSliders , faXmark , faArrowRightFromBracket
 } from '@fortawesome/free-solid-svg-icons' ;
 
-const logo = require('../images/logoBlack.png') ; 
-const avatar = require('../images/avatar.jpg');
-
-
-
-
+const logo = require('../images/logoBlack.png') ;
 function Navigation() {
 	const [menu , setmenu] = useState(false);
 	const [menuRight , setmenuRight] = useState(false) ;
 	const [clickimgProfile , setClickImgProfile] =  useState(false)
 
+	const [datauser ,setdata] = useState()
+    useEffect(() => {
+
+		axios.get('/route/information_user').then((data) => {
+			setdata(data.data)
+		})
+
+
+		} , [])
 
 		function logout(){
 			sessionStorage.clear()
@@ -57,13 +62,13 @@ function Navigation() {
 							<Link to={'#'} ><FontAwesomeIcon icon={faEnvelopeOpen} /></Link>
 						</div>
 						<div className='profile'>
-							<img  src={avatar} alt='avatar' onClick={() => setClickImgProfile(!clickimgProfile)} />
-							<p>Sara</p>
+							<img  src={datauser?.poster_img} alt='avatar' onClick={() => setClickImgProfile(!clickimgProfile)} />
+							<p>{datauser?.full_Name}</p>
 							<div className='profile-click-menu' style={{"visibility" : clickimgProfile ? 'visible' : 'hidden'}}>
-								<span> Hello Sart </span>
+								<span> Hello {datauser?.full_Name} </span>
 								<ul>
 									<li><FontAwesomeIcon  icon={faUser} /><Link to={'/profile'} >My Profile </Link> </li>
-									<li><FontAwesomeIcon  icon={faUserPen} /><Link to={'/profile'} >Edit Profile</Link></li>
+									<li><FontAwesomeIcon  icon={faUserPen} /><Link to={'/edit-profile'} >Edit Profile</Link></li>
 									<li><FontAwesomeIcon  icon={faUserGear} /><Link to={'/profile'} >Account Setting</Link></li>
 									<li><FontAwesomeIcon  icon={faArrowRightFromBracket} /><Link to={'/singin'} onClick={() => logout()} >Logout</Link></li>
 								</ul>
@@ -81,6 +86,7 @@ function Navigation() {
 							<li><FontAwesomeIcon icon={faNewspaper} /><Link to={'/home'}  >Newsfeed</Link></li>
 							<li><FontAwesomeIcon icon={faUser} /><Link to={'/profile'}  >Profile</Link></li>
 							<li><FontAwesomeIcon icon={faBell} /><Link to={'#'}  >Notification</Link></li>
+							<li><FontAwesomeIcon icon={faUserPen} /><Link to={'/edit-profile'}  >Edit Profile</Link></li>
 						</ul>
 					</li>
 				</ul>

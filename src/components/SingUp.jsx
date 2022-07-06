@@ -5,8 +5,11 @@ import {faTwitter , faFacebook	, faInstagram} from '@fortawesome/free-brands-svg
 import {Link} from 'react-router-dom' ;
 import axios from 'axios' ;
 const img = require('../images/baner.png') ;
-const successImg = require('../images/svg.png');
-function BoxAlert () {
+
+function BoxAlert (props) {
+
+
+	const successImg = require('../images/svg.png');
 
 	return (
 		<div className='box-alert'>
@@ -14,7 +17,10 @@ function BoxAlert () {
 				<h1>Account created seccessfly</h1>
 				<span>Now you can Navigate</span>
 				<img src={successImg} alt='img' />
-				<Link to={'/singin'} >Log In</Link>
+				
+				<Link to={'/singin'} >Log In</Link> 
+				
+
 			</div>
 		</div>
 		)
@@ -107,9 +113,9 @@ function SingUp () {
 				</form>
 
 			</div>
-			{state ? <BoxAlert /> : ''}
+			{state ? <BoxAlert  /> : ''}
 		</div>
 	)
 }
 
-export default  SingUp ;
+export  default SingUp  ;

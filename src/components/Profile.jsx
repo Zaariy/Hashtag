@@ -11,14 +11,18 @@ import {faPencil ,
 	faCheck} from '@fortawesome/free-solid-svg-icons'; 
 
 // test Photos 
-const imgProfile =  require("../images/avatar.jpg") ;
+const imgProfile =  require("../images/unknown.jpg") ;
 //for testing
 const images = [1,1,1,1,1,1 ,1,1,1,1,1,1] ;
 
 
 
-function HeaderProfile() {
+function HeaderProfile(props) {
 	const [componentRunder , setComponent] = useState('Timeline') ;
+	const data = props.data ;
+	console.log(data)
+
+	
 	function slidingColors (e) {
 		const element =  document.querySelectorAll('.profile-page .nav ul li') ;
 		element.forEach(ele => {
@@ -45,7 +49,7 @@ function HeaderProfile() {
 			}else if (componentRunder === 'Photos') {
 				return <Photos />
 			}else if (componentRunder === 'About') {
-				return <About />
+				return <About data={data?.information} />
 			} else if (componentRunder === 'Friend') {
 				return <Friends />
 			}
@@ -57,9 +61,9 @@ function HeaderProfile() {
 			<header>
 			<div className='containerMainpage' >
 				<div className='content' >
-					<div className='images' style={{'backgroundImage' : `url(${imgProfile})`}}>
-						<img src={imgProfile} alt='logoprofile' />
-						<h1>Sara</h1>
+					<div className='images' style={{'backgroundImage' : `url(${data?.background_img})`}}>
+						<img src={data?.poster_img} alt='logoprofile' />
+						<h1>{data?.full_Name}</h1>
 						<div className="edit" >
 							<button><FontAwesomeIcon icon={faPencil} /></button>
 							<button><FontAwesomeIcon icon={faGear} /></button>
@@ -67,9 +71,9 @@ function HeaderProfile() {
 					</div>
 				<div className='followers-info' >
 						<ul>
-							<li>Psots <span> 100</span></li>
-							<li>Followers<span> 200</span></li>
-							<li>Following<span> 300</span></li>
+							<li>Psots <span>{data?.postes.length}</span></li>
+							<li>Followers<span> {data?.followers}</span></li>
+							<li>Following<span> {data?.following}</span></li>
 						</ul>
 				</div>
 				<div className='nav'>
@@ -120,13 +124,7 @@ function Photos () {
 		)
 }
 
-function About () {
-
-	// const [data , setData ] =  useState('')
-	useEffect(() => {
-		
-		axios.post('/route/information_user').then((data) => console.log(data))
-	} , [])
+function About ({data}) {
 
 	return (
 		<div className='containerMainpage' >
@@ -137,44 +135,38 @@ function About () {
 					<li>
 						<span>About Me</span>
 						<span>
-							Hi, I’m James, I’m 36 and I work as a Digital Designer for the “Daydreams” Agency in Pier 56
+							{data?.about}
 						</span>
 					</li>
 					
 					<li>
-						<span>About Me</span>
-						<span>
-							Hi, I’m James, I’m 36 and I work as a Digital Designer for the “Daydreams” Agency in Pier 56
-						</span>
-					</li>
-					<li>
-						<span>Email</span>
-						<span>
-							user@gmail.com
-						</span>
-					</li>
-					<li>
 						<span>Mobile</span>
 						<span>
-							0645454545
+								{data?.mobile}
 						</span>
 					</li>
 					<li>
 						<span>Birth Date: </span>
 						<span>
-							Hi, I’m James, I’m 36 and I work as a Digital Designer for the “Daydreams” Agency in Pier 56
+								{data?.address}
+						</span>
+					</li>
+					<li>
+						<span>Live :</span>
+						<span>
+							{data?.live_in}
 						</span>
 					</li>
 					<li>
 						<span>Gender</span>
 						<span>
-							Hi, I’m James, I’m 36 and I work as a Digital Designer for the “Daydreams” Agency in Pier 56
+								{data?.gender}
 						</span>
 					</li>
 					<li>
-						<span>Gender</span>
+						<span>Website</span>
 						<span>
-							Hi, I’m James, I’m 36 and I work as a Digital Designer for the “Daydreams” Agency in Pier 56
+								{data?.socil_link}
 						</span>
 					</li>
 				</ul>
@@ -185,6 +177,7 @@ function About () {
 }
 
 function Friends () {
+
 	//for testing 
 	const a = [1,1,1,1,1,1,1,1,1,1,1]
 	return (
@@ -266,12 +259,19 @@ function SidesFriends () {
 } 
 
 function  Profile() {
+	const [data , setdata] = useState()
+	useEffect(() => {
 
+			axios.get('/route/information_user').then((data) => {
+				setdata(data.data)
+			})
+
+	} , [])
 	return (
 		<div className='all-content-profile'>
 		<Navigation />
 		<div className='profile-page' >
-			<HeaderProfile />
+			<HeaderProfile data={data} />
 		</div>
 		</div>
 		)

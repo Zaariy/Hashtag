@@ -1,7 +1,6 @@
-import React , {useState} from 'react' ;
+import React , {useState } from 'react' ;
 import {FontAwesomeIcon } from '@fortawesome/react-fontawesome' ;
 import {faXmark} from '@fortawesome/free-solid-svg-icons' ;
-
 import '../css/createpost.css' ;
 
 const img =  require('../images/avatar.jpg') ;
@@ -11,12 +10,13 @@ const img =  require('../images/avatar.jpg') ;
  to access one state 
 */
 
-function CreatePost() {
+function CreatePost({data}) {
 
 	const [state , setState] = useState(false) ;
 	const [image , setImage] = useState(false) ;
 	const [selectedImg , setSelectedImg] = useState() ;
 
+ 
 
 	function showUploadImg (event) {
 		// This function shows us an image we had selected before
@@ -33,8 +33,8 @@ function CreatePost() {
 					<FontAwesomeIcon icon={faXmark}  onClick={() => setState(!state)}  />
 				</div>
 				<div className='info'>
-					<img src={img}  alt='logo' />
-					<span>Sara</span>
+					<img src={data?.poster_img}  alt='logo' />
+					<span>{data?.full_Name}</span>
 				</div>
 				<form action='#' method='POST' >
 					<input type='text' name='story' placeholder='Write somthing here...' />
@@ -65,7 +65,7 @@ function CreatePost() {
 				<section className='create-post'>
 					<h2>Create Post</h2>
 					<div className='text'>
-						<img src={img}  alt='logo' />
+						<img src={data?.poster_img}   alt='logo' />
 						<span onClick={() => setState(!state)} >Write somthing here...</span>
 					</div>
 					<div className='options' >

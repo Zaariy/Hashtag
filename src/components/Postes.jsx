@@ -1,4 +1,5 @@
-import React , {useState} from 'react' ;
+import React , {useState , useEffect} from 'react' ;
+import axios from 'axios' ;
 import '../css/postes.css' ;
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome' ;
 import { faPaperPlane , 
@@ -16,9 +17,9 @@ const data =  {
 	comment : 'yes  you cant do that '
 }
 
-
+const logo = require('../images/avatar.jpg')
 function Comments ({event}) {
-	const [dataComment  ] =useState([data])
+	const [dataComment] =useState([data])
 
 	return (
 		<div className='post-comments' style={{'display' : event ? 'block' : 'none' }}>
@@ -66,10 +67,19 @@ function Likes() {
 }
 
 function Postes(props) {
-	// console.log(props.child[0])
+	
 	const [clickState , setClickState] = useState(false) ;
-	// add id 
+	 
 
+	const [datauser ,setdata] = useState()
+    useEffect(() => {
+
+		axios.get('/route/information_user').then((data) => {
+			setdata(data.data)
+		})
+
+
+	} , [])
 
 	const a = [1,1,1]
 	return (
@@ -78,7 +88,7 @@ function Postes(props) {
 			
 			<div className='all-postes-content'>
 				<div className='postes-news-all'>
-					<CreatePost />
+					<CreatePost data={datauser} />
 					<div className='postes-news'>
 					{
 						a.map((data , index) => {
@@ -87,9 +97,9 @@ function Postes(props) {
 								<div className='cart' key={`${index}h`}>
 									<div className='head' >
 									 	<div className='info'>
-										 	<img src={`https://picsum.photos/50/50?random=${index}`} alt='logo' />
+										 	<img src={datauser?.poster_img} alt='logo' />
 										 	<div className='text'>
-										 		<span>Sara</span>
+										 		<span>{datauser?.full_Name}</span>
 											 	<span>2020-10-15</span>
 										 	</div>
 									 	</div>
@@ -130,7 +140,7 @@ function Postes(props) {
 					props.child ?  props.child.map((ele , index) => {
 						return (
 								<div key={index}>
-									ele
+									{ele}
 								</div>
 								)
 					}) : (
