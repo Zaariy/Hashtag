@@ -54,8 +54,9 @@ const phostesSchema = new mongoose.Schema({
 
 
 		image : String ,
-		_id_comment : String ,
-		titel : String ,
+		comments : Array ,
+		title : String ,
+		body : String,
 		date : {type : Date , default : Date.now} ,
 		likes : Number ,
 	
@@ -119,7 +120,8 @@ router.post('/logout' , (req ,res) => {
 })
 
 router.post('/singup' , (req , res) => {
-		const resData =   JSON.parse(Object.keys(req.body)[0]);
+		console.log(req.body)
+		const resData =  JSON.parse(Object.keys(req.body)[0]);
 
 		const user  = new users({
 			id_user : same_id ,
@@ -148,9 +150,10 @@ router.post('/singup' , (req , res) => {
 			postes : [
 			{
 				image : '' ,
-				_id_comment : "Unknown" ,
+				comments : [] ,
 				titel : "Unknown" ,
-				likes : 1 ,
+				body : "Unknown" ,
+				likes : 0 ,
 			}
 			],
 			followers : 0 , 
@@ -172,6 +175,7 @@ router.post('/singup' , (req , res) => {
 router.post('/singin' , (req , res) => { 
 
 	const req_data_user =  JSON.parse(Object.keys(req.body)[0])
+	console.log(req.body)
 	const query =  {'email' :  req_data_user.email , 'password' : req_data_user.password}
 	users.findOne(query)
 	.then(data => {
@@ -230,9 +234,9 @@ router.post('/update_info' , (req , res) => {
 
 })
 	
-// Upload images //
+// Upload images //////////////////////////////
 
-const storage = multer.diskStorage({
+var storage = multer.diskStorage({
 	destination: (req , file , callBack) => {
 
 		callBack(null , 'images/profile' )
@@ -240,21 +244,92 @@ const storage = multer.diskStorage({
 	filename : (req , file , callBack) => {
 		console.log(file)
 
-		const uniqName = uniqid() + file.originalname;
+		var uniqName = uniqid() + file.originalname;
 		if (req.session.id_user_login) {
 			info_users.findOneAndUpdate({"id_user" : req.session.id_user_login} , {"poster_img" : `/images/profile/${uniqName}`}).then((data) => console.log(data))
 		}
 		callBack(null ,  uniqName)
 	}
 })
-const mult = multer({
+var mult = multer({
 	storage : storage 
 })
 
 router.post('/update_images' , mult.single('img') , (req , res) => {
 
-	res.redirect('/edit-profile')
+	res.send({"status" : true})
 })
+//////////////////////////////////
+// postes 
+let Stack = '' ;
+async function up() {
+	var storage = multer.diskStorage({
+		destination: (req , file , callBack) => {
+
+		callBack(null , 'images/public_img' )
+		},
+		filename : (req , file , callBack) => {
+			console.log(file)
+			var uniqName = `${uniqid()}${file.originalname}`;
+			Stack = uniqName
+			callBack(null ,  uniqName)
+		}
+
+	})
+
+	return multer({
+		storage : storage
+	})
+}
+up().then(data =>  {
+	router.post('/upload_post', data.single('img')  , (req , res) => {
+ 		res.send({"status" : true})
+ 	}) 
+})
+
+router.post('/upload_text_post',(req ,res) => {
+
+	
+	
+
+	const resData = JSON.parse(Object.keys(req.body)[0]) ;
+
+	const data_post = {
+		image :  `/images/public_img/${Stack}` ,
+		title : resData.title,
+		body : resData.msg ,
+		likes : 0 
+	}
+	if (req.session.name) {
+
+		info_users.findOne({"id_user" : req.session.id_user_login}).then((data) => {
+			data.postes.push(data_post)
+			data.save()
+			
+			
+			res.send({"status" : true})
+			
+		})
+		
+	}else {
+
+		res.send({"status" : false})
+	}
+	
+	
+})
+
+router.get('/public_news' , (req ,res) => {
+
+	info_users.find({}).then(data => {
+		console.log(data)
+		res.send(data)
+	}).then(err => {
+
+	})
+	// res.send('done')
+})
+
 module.exports = router ;
 
 

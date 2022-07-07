@@ -10,9 +10,7 @@ import {faPencil ,
 	faThumbsUp , 
 	faCheck} from '@fortawesome/free-solid-svg-icons'; 
 
-// test Photos 
-const imgProfile =  require("../images/unknown.jpg") ;
-//for testing
+
 const images = [1,1,1,1,1,1 ,1,1,1,1,1,1] ;
 
 
@@ -45,7 +43,7 @@ function HeaderProfile(props) {
 		
 
 			if (componentRunder === 'Timeline')  {
-				return <Postes child={[<Sides /> , <SidesFriends />]} />  
+				return <Postes  child={[<Sides /> , <SidesFriends />]} />  
 			}else if (componentRunder === 'Photos') {
 				return <Photos />
 			}else if (componentRunder === 'About') {
@@ -53,8 +51,6 @@ function HeaderProfile(props) {
 			} else if (componentRunder === 'Friend') {
 				return <Friends />
 			}
-
-		
 	}
 	return (
 		<>
@@ -103,7 +99,6 @@ function Photos () {
 			<h2>Photos</h2>
 			<div className='poster-photos-profile'>
 				{
-
 					images.map((img , index) => {
 						return (
 							<div className='cart-image' key={index} >

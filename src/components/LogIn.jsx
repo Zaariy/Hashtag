@@ -39,11 +39,10 @@ function Login(props) {
 			return false
 		}
 	}
+
 	function chickLogin(){
-			
 		
-			axios.post('/route/singin' ,   JSON.stringify({"email" : email , password : password }))
-			.then((res) => res.data)
+			axios.post('/route/singin' , JSON.stringify({email : email , password : password }) ).then((res) => res.data)
 			.then((res) => {
 			
 			setData({"status" : res.status})

@@ -1,20 +1,20 @@
 const express = require('express') 
 const app = express() ;
 const route =  require('./Router');
-const body =  require('body-parser') ;
+const bodyParser =  require('body-parser') ;
 const session = require('express-session') ;
 const path = require('path');
 const fs = require('fs') ;
-app.use(express.urlencoded({'extended' : true }))
+app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use('/route' , route) ;
 
 app.use((req ,res , next) => {
 
-	console.log(req.session)
-	var imagepath =  path.join(__dirname  , (req.url || 'none')) ;
 	
+	var imagepath =  path.join(__dirname  , (req.url || 'none')) ;
 	fs.stat(imagepath , (err , info ) => {
+		console.log(err)
 		if (err) {
 			next();
 			return
@@ -28,6 +28,11 @@ app.use((req ,res , next) => {
 	})
 
 })
+
+// app.get('/images/public_img' , (req ,res) => {
+
+// 	res.end()
+// })
 app.get('/images' , (req ,res) => {
 
 	res.end()

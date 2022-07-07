@@ -44,12 +44,16 @@ function SingUp () {
 			return false
 		}
 	}
+
+
+
+	// '/route/singup' ,  JSON.stringify({"email" : email , 'password' : password , 'full_Name' : fname})
 	function submitData(){
+
 		if (dataIsReady && chickInputs()) {
-			axios.post('/route/singup' ,  JSON.stringify({"email" : email , 'password' : password , 'full_Name' : fname}) )
-			.then((res) => res.data)
+			axios.post('/route/singup' , JSON.stringify({"email" : email , 'password' : password , 'full_Name' : fname}) ).then((res) => res.data)
 			.then((res) => {
-			
+				console.log(res.data)
 				setState(res.data)
 				if (res.data) {
 					console.log('redirect')

@@ -80,7 +80,7 @@ function Postes(props) {
 
 
 	} , [])
-
+	
 	const a = [1,1,1]
 	return (
 
@@ -91,7 +91,7 @@ function Postes(props) {
 					<CreatePost data={datauser} />
 					<div className='postes-news'>
 					{
-						a.map((data , index) => {
+						datauser?.postes.map((data , index) => {
 
 							return (
 								<div className='cart' key={`${index}h`}>
@@ -100,7 +100,7 @@ function Postes(props) {
 										 	<img src={datauser?.poster_img} alt='logo' />
 										 	<div className='text'>
 										 		<span>{datauser?.full_Name}</span>
-											 	<span>2020-10-15</span>
+											 	<span>{data.date.slice(0 , 10)}</span>
 										 	</div>
 									 	</div>
 									 	<div className='select'>
@@ -122,11 +122,12 @@ function Postes(props) {
 									 	</div>
 									</div>
 									<p>
-										Google LLC is an American multinational technology company that focuses on
-										artificial intelligence, search engine technology, online advertising, cloud 
-										computing, computer software, quantum computing, e-commerce, and consumer electronics
+										{data?.body}	
 									</p>
-									<img src={`https://picsum.photos/150/150?random=${index}`} alt='myphoto' />
+									{
+										data?.image.length != 0 ? <img src={data?.image } alt='myphoto' /> : ''
+									}
+									
 									<Likes />
 					        	</div>
 							)
