@@ -19,11 +19,11 @@ function Navigation() {
 	const [menu , setmenu] = useState(false);
 	const [menuRight , setmenuRight] = useState(false) ;
 	const [clickimgProfile , setClickImgProfile] =  useState(false)
-
 	const [datauser ,setdata] = useState()
+	const [datasearch , setDataSearch] = useState()
     useEffect(() => {
 
-		axios.get('/route/information_user').then((data) => {
+		axios.get(`/route/information_user/${sessionStorage.getItem("session")}`).then((data) => {
 			setdata(data.data)
 		})
 
@@ -49,9 +49,9 @@ function Navigation() {
 						</div>
 					</div>
 					<div className='search'>
-						<form action='#' method='POST' >
-							<input type='text' placeholder='Search here...' name='search' />
-							< FontAwesomeIcon className='icon-search' icon={faMagnifyingGlass} />
+						<form action='#' method='get' onSubmit={(e) => e.preventDefault()} >
+							<input type='text' onChange={(e) =>  setDataSearch(e.target.value)} placeholder='Search here...' name='search' />
+							<Link to={'/search'} state={{"name" : datasearch}}>< FontAwesomeIcon className='icon-search' icon={faMagnifyingGlass} /></Link>
 						</form>
 					</div>
 					<div className='nav-profile'>

@@ -5,7 +5,7 @@ import '../css/createpost.css' ;
 import FormData from 'form-data' ;
 import axios from 'axios' ;
 
-const img =  require('../images/avatar.jpg') ;
+
 
 /*
  I did 'PopWindow and CreatePostChild' as component childs 
@@ -16,13 +16,11 @@ function CreatePost({data}) {
 	const [state , setState] = useState(false) ;
 	const [image , setImage] = useState(false) ;
 	const [selectedImg , setSelectedImg] = useState() ;
-	
 	const [file , setFile] =  useState()
 
 	function showUploadImg (event) {
-		// This function shows us an image we had selected before
-		
-			setSelectedImg(URL.createObjectURL(event.target.files[0]))
+		// This function shows us an image we had selected before		
+		setSelectedImg(URL.createObjectURL(event.target.files[0]))
 	}
 
 	function hundleData (e) {
@@ -31,40 +29,26 @@ function CreatePost({data}) {
 		const d = Array.from(e.target)
 		const inputText = d[0].value
 		// send img Frst because it has Content-Type : multipart/form-data
-		hundleUpload()
-		// send Text Seconde Because it has Content-type : JSON upload_text_post
-		function hundleText ()  {
-			axios.post("/route/upload_text_post" , JSON.stringify({'msg' : inputText , 'title' : inputText}))
-			.then(data => console.log(data))
-		}
-
-
-		hundleText()
-		
+		hundleUpload(inputText)
 
 	}
-
-	// function hundleFile (e) {
-	// 	setFile(e.target.files[0])	
-	// 	// console.log(e)	
-	// }
-
 	
-	function hundleUpload() {
+	function hundleUpload(text) {
 		const formdata = new FormData() 
 		formdata.append('img' , file)
-		formdata.append('name' , 'mongo')
+		formdata.append('msg' , text)
 
 
 
 		axios({
-			url : `/route/upload_post`,
+			url : `/upload/post`,
 			method : `POST`,
 			headers : {
 				"Content-Type" : `mulitpart/form-data`
 			},
 
-			data : formdata
+			data : formdata,
+			
 		}).then((data) => console.log(data))
 	}
 	function PopWindow () {

@@ -1,6 +1,7 @@
 import './App.css';
 import SingUp from './components/SingUp.jsx' ;
 import Login from './components/LogIn.jsx' ;
+import Search from './components/Search.jsx' ;
 import MainPage from './components/Mainpage.jsx' ;
 import Profile from './components/Profile.jsx' ;
 import SettingsProfile from './components/Settingsprofile.jsx' ;
@@ -46,6 +47,7 @@ function App() {
               <Route path='/home' element={<MainPage />} />
               <Route path='/profile' element={<Profile />} />
               <Route path='/edit-profile' element={<SettingsProfile />} />
+              <Route path='/search' element={<Search />} />
             </>
             ) : (
 

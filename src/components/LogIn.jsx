@@ -1,17 +1,11 @@
 import React ,  {useState , useEffect} from 'react' ;
-
 import '../css/singup.css' ;
 import {FontAwesomeIcon} from  '@fortawesome/react-fontawesome' ;
 import {faTwitter , faFacebook	, faInstagram} from '@fortawesome/free-brands-svg-icons' ;
 import {Link} from 'react-router-dom' ;
 import axios from 'axios' ;
-// import  { Link } from 'react-router-dom' ;
-
 
 const img = require('../images/baner.png') ;
-
-
-
 
 function Login(props) {
 	const [data , setData] = useState({status : true})
@@ -42,7 +36,7 @@ function Login(props) {
 
 	function chickLogin(){
 		
-			axios.post('/route/singin' , JSON.stringify({email : email , password : password }) ).then((res) => res.data)
+			axios.post('/register/singin' , JSON.stringify({email : email , password : password }) ).then((res) => res.data)
 			.then((res) => {
 			
 			setData({"status" : res.status})

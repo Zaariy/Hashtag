@@ -2,9 +2,6 @@ import React  , {useState , useEffect} from 'react' ;
 import Navigation from './Navigation.jsx' ; 
 import '../css/setting-profile.css' ;
 import axios from 'axios' ;
-const data = new FormData() ;
-const img = require('../images/avatar.jpg') ;
-
 
 function PopWindowSeccessSubmit() {
 
@@ -27,7 +24,7 @@ function SettingsProfile () {
 	const [resoultUpdateData , setresulUpdatedata] = useState(false) ;
 	useEffect(() => {
 
-		axios.get('/route/information_user')
+		axios.get(`/route/information_user/${sessionStorage.getItem("session")}`)
 		.then((data) => setdata(data.data))
 
 
@@ -89,7 +86,7 @@ function SettingsProfile () {
 					<h1>Personal Information</h1>
 					<div>
 						<img src={data?.poster_img} alt="logo" />
-							<form action='/route/update_images' className='form-one' method="POST" encType="multipart/form-data">
+							<form action='/upload/images' className='form-one' method="POST" encType="multipart/form-data">
 									<label htmlFor='fileimg' className='editPhoto' >Edit</label>
 									<p>
 										<input type='file' className='uploadImg' id="fileimg" name='img'  />	

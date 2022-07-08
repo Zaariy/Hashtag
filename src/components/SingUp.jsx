@@ -51,7 +51,7 @@ function SingUp () {
 	function submitData(){
 
 		if (dataIsReady && chickInputs()) {
-			axios.post('/route/singup' , JSON.stringify({"email" : email , 'password' : password , 'full_Name' : fname}) ).then((res) => res.data)
+			axios.post('/register/singup' , JSON.stringify({"email" : email , 'password' : password , 'full_Name' : fname}) ).then((res) => res.data)
 			.then((res) => {
 				console.log(res.data)
 				setState(res.data)

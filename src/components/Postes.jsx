@@ -1,87 +1,48 @@
 import React , {useState , useEffect} from 'react' ;
+import {Link} from 'react-router-dom' ;
 import axios from 'axios' ;
 import '../css/postes.css' ;
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome' ;
 import { faPaperPlane , 
-	faThumbsUp, faMessage , faShare
+faThumbsUp, faMessage , faShare
 } from '@fortawesome/free-solid-svg-icons'; 
 import CreatePost from './Createpost.jsx' ;
 import Story from './Story.jsx' ; 
 import Groups from './Groups.jsx' ;
 
-const img =  require('../images/avatar.jpg') ;
-var today = new Date();
-const data =  {
-	name : 'hamda' , 
-	date :  today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate() ,
-	comment : 'yes  you cant do that '
-}
+import Likes from './Likes.jsx' ;
 
-const logo = require('../images/avatar.jpg')
-function Comments ({event}) {
-	const [dataComment] =useState([data])
+// const img =  require('../images/avatar.jpg') ;
 
-	return (
-		<div className='post-comments' style={{'display' : event ? 'block' : 'none' }}>
-			{
-				dataComment.map((data , index) => {
-					return (
-							<div className='cart-comments' key={index}>
-								<img src={img} alt='img' />
-								<div className='text'>
-								<span>{data.name}</span>
-								<span>{data.date}</span>
-								<p>
-									{data.comment}
-								</p>
-							</div>
-			</div>
-					)
-				})
-			}	
-			<div className='send'>
-				<input type='text' name='comment' placeholder='Write comment here...' />
-				<FontAwesomeIcon icon={faPaperPlane} />
-			</div>
 
-		</div>
-		)
-}
-
-function Likes() {
-	const [state , setState ] = useState(false) ;
-	return (
-		<>
-		<div className='likes'>
-			<div className='content' >
-				<ul>
-					<li onClick={(e) => e.target.style.color !== 'red' ? e.target.style.color =  'red' : e.target.style.color =  'black'} ><FontAwesomeIcon  icon={faThumbsUp} /> Like</li>
-					<li onClick={() => setState(!state)} ><FontAwesomeIcon  icon={faMessage} />comments</li>
-					<li><FontAwesomeIcon  icon={faShare}  />share</li>
-				</ul>
-			</div>
-		</div>
-		<Comments event={state} />
-		</>
-		)
-}
+// const logo = require('../images/avatar.jpg')
 
 function Postes(props) {
+
 	
 	const [clickState , setClickState] = useState(false) ;
-	 
+	const [datauser ,setdata] = useState(null)
 
-	const [datauser ,setdata] = useState()
     useEffect(() => {
-
-		axios.get('/route/information_user').then((data) => {
+    	if (!props.dataUser) {
+    		axios.get(`/route/information_user/${sessionStorage.getItem("session")}`).then((data) => {
 			setdata(data.data)
+			return
 		})
+    	}else {
+    		
+    		setdata(props.dataUser)
+
+    	}
+
+		return () => {
+    		setdata(null)
+    	}
 
 
-	} , [])
+	} , [props.dataUser])
 	
-	const a = [1,1,1]
+	
 	return (
 
 		<div className='containerMainpage'>
@@ -91,13 +52,14 @@ function Postes(props) {
 					<CreatePost data={datauser} />
 					<div className='postes-news'>
 					{
-						datauser?.postes.map((data , index) => {
+						datauser ? (
+							datauser?.postes.map((data , index) => {
 
 							return (
 								<div className='cart' key={`${index}h`}>
 									<div className='head' >
 									 	<div className='info'>
-										 	<img src={datauser?.poster_img} alt='logo' />
+										 	<Link to={'/profile'} state={{"id" : datauser?.id_user}}><img src={datauser?.poster_img} alt='logo' /></Link>
 										 	<div className='text'>
 										 		<span>{datauser?.full_Name}</span>
 											 	<span>{data.date.slice(0 , 10)}</span>
@@ -132,6 +94,7 @@ function Postes(props) {
 					        	</div>
 							)
 						})
+							): ''
 					}
 					</div>
 				</div>
