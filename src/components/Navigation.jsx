@@ -1,5 +1,5 @@
-import React , {useState , useEffect} from 'react' ;
-import axios from 'axios' ;
+import React , {useState} from 'react' ;
+import Fetch_api from '../fetch_api_data.js' ;
 import '../css/navigation.css' ;
 import {Link} from 'react-router-dom' ;
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome' ;
@@ -19,20 +19,13 @@ function Navigation() {
 	const [menu , setmenu] = useState(false);
 	const [menuRight , setmenuRight] = useState(false) ;
 	const [clickimgProfile , setClickImgProfile] =  useState(false)
-	const [datauser ,setdata] = useState()
 	const [datasearch , setDataSearch] = useState()
-    useEffect(() => {
+	const {data_fetch } =  Fetch_api(`/route/information_user/${sessionStorage.getItem("session")}`)
 
-		axios.get(`/route/information_user/${sessionStorage.getItem("session")}`).then((data) => {
-			setdata(data.data)
-		})
-
-
-		} , [])
 
 		function logout(){
 			sessionStorage.clear()
-	 		fetch('/route/logout' , {method : 'POST'}).then((data) => data.json()).then((data) => console.log(data) )
+	 		fetch('/route/logout' , {method : 'POST'}).then((data) => data.json())
 		}
 
 	return (
@@ -62,10 +55,10 @@ function Navigation() {
 							<Link to={'#'} ><FontAwesomeIcon icon={faEnvelopeOpen} /></Link>
 						</div>
 						<div className='profile'>
-							<img  src={datauser?.poster_img} alt='avatar' onClick={() => setClickImgProfile(!clickimgProfile)} />
-							<p>{datauser?.full_Name}</p>
+							<img  src={data_fetch?.poster_img} alt='avatar' onClick={() => setClickImgProfile(!clickimgProfile)} />
+							<p>{data_fetch?.full_Name}</p>
 							<div className='profile-click-menu' style={{"visibility" : clickimgProfile ? 'visible' : 'hidden'}}>
-								<span> Hello {datauser?.full_Name} </span>
+								<span> Hello {data_fetch?.full_Name} </span>
 								<ul>
 									<li><FontAwesomeIcon  icon={faUser} /><Link to={'/profile'} >My Profile </Link> </li>
 									<li><FontAwesomeIcon  icon={faUserPen} /><Link to={'/edit-profile'} >Edit Profile</Link></li>

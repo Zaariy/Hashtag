@@ -26,13 +26,8 @@ function App() {
             sessionStorage.setItem('session' , data.session) ;
           }else {
             sessionStorage.clear();
-          }
-         
-         
+          }   
       })
-
-
-
   })
 
   return (

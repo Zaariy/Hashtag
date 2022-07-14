@@ -3,10 +3,11 @@ const express = require('express');
 const register = express.Router() ;
 const uniqid = require("uniqid")
 
-const same_id = uniqid() ;
+
 register.post('/singup' , (req , res) => {
 		const resData =   JSON.parse(Object.keys(req.body)[0]);
-
+		const date = new Date() ;
+		const same_id = uniqid(date.getTime())  ;
 		const user  = new users({
 			id_user : same_id ,
 			email : resData.email,
@@ -43,15 +44,12 @@ register.post('/singup' , (req , res) => {
 		.then(data => {
 			informationUsers.save()
 			res.status(200).send({'data' : true})
-		}).then(err => console.log(err))
-		
+		}).then(err => console.log(err))	
 })
-
 
 register.post('/singin' , (req , res) => { 
 
 	const req_data_user =  JSON.parse(Object.keys(req.body)[0])
-	console.log(req.body)
 	const query =  {'email' :  req_data_user.email , 'password' : req_data_user.password}
 	users.findOne(query)
 	.then(data => {
@@ -69,7 +67,7 @@ register.post('/singin' , (req , res) => {
 		}
 		
 	} ).then(err => {
-		if (err) throw error
+		console.log("Error from file /backend/app_register_pages.js/  line : 70 " , err)
 	})
 
 })

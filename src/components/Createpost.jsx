@@ -1,4 +1,4 @@
-import React , {useState } from 'react' ;
+import React , {useState} from 'react' ;
 import {FontAwesomeIcon } from '@fortawesome/react-fontawesome' ;
 import {faXmark} from '@fortawesome/free-solid-svg-icons' ;
 import '../css/createpost.css' ;
@@ -13,10 +13,12 @@ import axios from 'axios' ;
 */
 
 function CreatePost({data}) {
+
 	const [state , setState] = useState(false) ;
 	const [image , setImage] = useState(false) ;
 	const [selectedImg , setSelectedImg] = useState() ;
 	const [file , setFile] =  useState()
+
 
 	function showUploadImg (event) {
 		// This function shows us an image we had selected before		
@@ -49,7 +51,7 @@ function CreatePost({data}) {
 
 			data : formdata,
 			
-		}).then((data) => console.log(data))
+		}).then((data) => data.data.status ? setState(false) : '')
 	}
 	function PopWindow () {
 		return (

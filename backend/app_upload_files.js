@@ -2,6 +2,7 @@ const multer = require('multer') ;
 const express = require('express') ;
 const uniqid =  require('uniqid') ;
 const mongoose = require('mongoose');
+const {comments_postes} = require('./modules_db/modleSchema.js')
 const {info_users} = require('./modules_db/modleSchema.js')
 const router = express.Router()
 
@@ -60,22 +61,26 @@ const mutlPostes =  multer({
 	storage : storagePostes
 })
 router.post('/post', mutlPostes.single('img') , (req , res) => {
-	console.log(req.file, req.body)
-
-
-
+	
 	if (req.session.id_user_login) {
+		const uniq_id = uniqid()
 		info_users.findOne({"id_user" : req.session.id_user_login})
 		.then((data) => {
 			
 			data.postes.push({
-				image : `/images/public_img/${req.file.filename}` ,
+				image : `/images/public_img/${req.file?.filename}`  ,
 				body : req.body.msg,
 				likes : 0,
-				comments : []
+				id_post : uniq_id
 			})
-			console.log(data)
+			const comment = new comments_postes({
+				id_post : uniq_id ,
+				comments : []
+			
+			
+			})
 			data.save()
+			comment.save()
 			res.send({'status' : true})
 
 		})
@@ -85,9 +90,6 @@ router.post('/post', mutlPostes.single('img') , (req , res) => {
 	}
  	
  }) 
-
-
-
 
 
 module.exports =  router ;

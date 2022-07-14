@@ -67,6 +67,7 @@
     width: 100%;
     white-space: break-spaces;
     word-break: break-all;
+    margin-left: 10px;
 
 }
 
@@ -143,7 +144,8 @@
 
 .postes-news .text p {
 	margin-bottom: 15px;
-	/*font-weight: 300;*/
+	padding: 0 5px;	
+	
 }
 
 .post-comments .send {

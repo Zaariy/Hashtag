@@ -1,5 +1,7 @@
 import React  , {useState , useEffect} from 'react' ;
 import Navigation from './Navigation.jsx' ; 
+import Fetch_api from '../fetch_api_data.js';
+import Loading from './LoadingPage.jsx' ;
 import '../css/setting-profile.css' ;
 import axios from 'axios' ;
 
@@ -18,16 +20,12 @@ function PopWindowSeccessSubmit() {
 
 function SettingsProfile () {
 
-	const  [data , setdata] =  useState() ;
+	// const  [data , setdata] =  useState() ;
 	const [updateData , setUpdateData] = useState();
 	const [stateUpdate  , setStateUpdate] = useState(false);
 	const [resoultUpdateData , setresulUpdatedata] = useState(false) ;
+	const {data_fetch , loading} =  Fetch_api(`/route/information_user/${sessionStorage.getItem("session")}`)
 	useEffect(() => {
-
-		axios.get(`/route/information_user/${sessionStorage.getItem("session")}`)
-		.then((data) => setdata(data.data))
-
-
 	
 		if (stateUpdate) {
 			axios.post('/route/update_info' , JSON.stringify(updateData))
@@ -60,8 +58,6 @@ function SettingsProfile () {
 		dataSand.gender = 'Male'
 		delete dataSand.submit 
 			setUpdateData(dataSand)
-			console.log(dataSand)
-		
 			setStateUpdate(true)
 			
 	}
@@ -76,8 +72,9 @@ function SettingsProfile () {
 	
 	shutdown()
 	return (
-
-		<div className='setting-profile'>
+		<>
+		{
+			loading ?( <div className='setting-profile'>
 			<Navigation />
 			<div className='containerMainpage'>
 				<div className='edit-profile'>
@@ -85,7 +82,7 @@ function SettingsProfile () {
 				<div className='content' >
 					<h1>Personal Information</h1>
 					<div>
-						<img src={data?.poster_img} alt="logo" />
+						<img src={data_fetch?.poster_img} alt="logo" />
 							<form action='/upload/images' className='form-one' method="POST" encType="multipart/form-data">
 									<label htmlFor='fileimg' className='editPhoto' >Edit</label>
 									<p>
@@ -98,12 +95,12 @@ function SettingsProfile () {
 						<ul>
 							<li>
 								<label htmlFor='fullname'>Full Name : </label>
-								<input type='text' id='fullname' placeholder={data?.full_Name} name='full_Name' />
+								<input type='text' id='fullname' placeholder={data_fetch?.full_Name} name='full_Name' />
 							</li>
 							<li>
 
 								<label htmlFor="about">About :</label>
-								<input type='text' id='about'  placeholder={data?.information?.about} name='about' />
+								<input type='text' id='about'  placeholder={data_fetch?.information?.about} name='about' />
 							</li>
 							<li>
 								<label >Gender : </label>
@@ -122,24 +119,24 @@ function SettingsProfile () {
 
 							<li>
 								<label htmlFor="mobile">Mobile :</label>
-								<input id='mobile' type='text' placeholder={data?.information?.mobile} name='mobile' />
+								<input id='mobile' type='text' placeholder={data_fetch?.information?.mobile} name='mobile' />
 							</li>
 							<li>
 								<label htmlFor="birth">Birth Date :</label>
-								<input id='birth' type='date' placeholder={data?.information?.brith_date} name='birth_date' />
+								<input id='birth' type='date' placeholder={data_fetch?.information?.brith_date} name='birth_date' />
 							</li>
 							<li>
 								<label htmlFor="address">Address :</label>
-								<input id='address' type='text' placeholder={data?.information?.address} name='address' />
+								<input id='address' type='text' placeholder={data_fetch?.information?.address} name='address' />
 							</li>
 							<li>
 								<label htmlFor="city">City :</label>
-								<input id='ctiy' type='text' placeholder={data?.information?.live_in} name='live_in' />
+								<input id='ctiy' type='text' placeholder={data_fetch?.information?.live_in} name='live_in' />
 							</li>
 
 							<li>
 								<label htmlFor="website">Website  :</label>
-								<input id='website' type='text' placeholder={data?.information?.socil_link} name='socil_link'/>
+								<input id='website' type='text' placeholder={data_fetch?.information?.socil_link} name='socil_link'/>
 							</li>
 							
 							<li>
@@ -150,7 +147,10 @@ function SettingsProfile () {
 				</div>
 			</div>
 			</div>
-		</div>
+					</div>) : <Loading /> 
+
+		}
+		</>
 		)
 }
 

@@ -1,5 +1,7 @@
-import React , {useState , useEffect} from 'react' ;
+import React , {useState } from 'react' ;
 import {useLocation} from 'react-router-dom' ;
+import Fetch_api from '../fetch_api_data.js' ;
+import Loading from './LoadingPage.jsx' ;
 import '../css/profile.css';
 import Navigation from './Navigation.jsx' ;
 import axios from 'axios' ;
@@ -21,22 +23,19 @@ import {faPencil ,
 function  Profile(props) {
 	const useLoc = useLocation()
 	const id =  useLoc.state?.id
-	const [data , setdata] = useState()
-	
-	useEffect(() => {
-
-			axios.get(`/route/information_user/${id ? id : sessionStorage.getItem('session')}`).then((data) => {
-				setdata(data.data)
-			})
-
-	} , [])
+	const {data_fetch , loading} =  Fetch_api(`/route/information_user/${ id ? id : sessionStorage.getItem("session")}`)
 	return (
-		<div className='all-content-profile'>
-		<Navigation />
-		<div className='profile-page' >
-			<HeaderProfile data={data} />
-		</div>
-		</div>
+		<>
+			{ 
+				loading ? ( <div className='all-content-profile'>
+							<Navigation />
+							<div className='profile-page' >
+								<HeaderProfile user_public_data={data_fetch} />
+							</div>
+						</div>) : <Loading />
+
+			}
+		</>
 		)
 }
 
@@ -45,7 +44,8 @@ function  Profile(props) {
 const images = [1,1,1] ;
 function HeaderProfile(props) {
 	const [componentRunder , setComponent] = useState('Timeline') ;
-	const data = props.data ;
+	const receive_public_data = props.user_public_data ;
+	const data = receive_public_data
 	
 	function slidingColors (e) {
 		const element =  document.querySelectorAll('.profile-page .nav ul li') ;
@@ -70,7 +70,7 @@ function HeaderProfile(props) {
 		
 
 			if (componentRunder === 'Timeline')  {
-				return <Postes dataUser={props.data}  child={[<SidePhotos /> , <SideFriends />]} />  
+				return <Postes user_public_data={[receive_public_data]}  child={[<SidePhotos /> , <SideFriends />]} />  
 			}else if (componentRunder === 'Photos') {
 				return <Photos dataUser={data} />
 			}else if (componentRunder === 'About') {

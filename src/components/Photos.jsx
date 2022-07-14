@@ -1,11 +1,11 @@
-import React , { useEffict , useState} from 'react' ;
+import React  from 'react' ;
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome' ;
-import {faThumbsUp, faMessage , faShare} from '@fortawesome/free-solid-svg-icons'; 
+import {faThumbsUp, faMessage } from '@fortawesome/free-solid-svg-icons'; 
 
 
 
 function Photos ({dataUser}) {
-
+	
 	return (
 		<div className='containerMainpage' >
 		<div className='photos-profile' > 
@@ -13,13 +13,16 @@ function Photos ({dataUser}) {
 			<div className='poster-photos-profile'>
 				{
 					dataUser?.postes.map((data , index) => {
+						if (data.image === '/images/public_img/undefined') {
+							return
+						}
 						return (
 							<div className='cart-image' key={index} >
-								<img src={data.image} alt='img' />
+								<img src={data?.image} alt='img' />
 								<div className='info'>
 									<ul>
-										<li onClick={(e) => e.target.style.color !== 'red' ? e.target.style.color =  'red' : e.target.style.color =  'white'} > <span>{data.comments.length}</span> <FontAwesomeIcon  icon={faThumbsUp} /></li>
-										<li><span>{data.likes}</span><FontAwesomeIcon  icon={faMessage} /></li>
+										<li onClick={(e) => e.target.style.color !== 'red' ? e.target.style.color =  'red' : e.target.style.color =  'white'} > <span>{data.likes}</span> <FontAwesomeIcon  icon={faThumbsUp} /></li>
+										<li><span>0</span><FontAwesomeIcon  icon={faMessage} /></li>
 									</ul>
 								</div>
 							</div>

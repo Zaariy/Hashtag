@@ -45,9 +45,6 @@ function SingUp () {
 		}
 	}
 
-
-
-	// '/route/singup' ,  JSON.stringify({"email" : email , 'password' : password , 'full_Name' : fname})
 	function submitData(){
 
 		if (dataIsReady && chickInputs()) {

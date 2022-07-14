@@ -4,7 +4,7 @@ const session = require('express-session') ;
 const uniqid =  require('uniqid') ;
 const body =  require('body-parser') ;
 const mongoose = require('mongoose') ;
-const {users , info_users} = require('./modules_db/modleSchema.js') ;
+const {users , info_users , comments_postes} = require('./modules_db/modleSchema.js') ;
 const fs = require('fs') ;
 const path =  require('path') ;
 const multer = require('multer');
@@ -17,6 +17,7 @@ async function StartMongoose() {
 		await mongoose.connect(url , {
 			useNewUrlParser : true , 
 			useUnifiedTopology : true 
+
 		})
 
 		console.log("Database Connected" , url)
@@ -42,7 +43,6 @@ router.get('/session' , (req , res) => {
 })
 router.post('/logout' , (req ,res) => {
 	req.session.destroy()
-	console.log('session destroy')
 	res.send({'status' : 'seccess'})
 })
 
@@ -87,12 +87,16 @@ router.post('/update_info' , (req , res) => {
 
 router.get('/public_news' , (req ,res) => {
 
-	info_users.find({}).then(data => {
-		res.send(data)
-	}).then(err => {
+	if (req.session.name) {
+		info_users.find({}).then(data => {
+			res.send(data)
+		}).then(err => {
 
-	})
-	// res.send('done')
+		})
+	}else {
+		res.send({"status" : false , "msg" : "you ara not authorize to Access this data"})
+	}
+	
 })
 router.get('/search_users/:id' , (req , res) => {
 	const data = req.query.name ;
@@ -101,7 +105,7 @@ router.get('/search_users/:id' , (req , res) => {
 		info_users.find({full_Name : req.params.id})
 			.then(data => {
 				res.send(data)
-				console.log(data)	
+				
 		}).then(err => {
 			console.log(err)
 
@@ -112,6 +116,44 @@ router.get('/search_users/:id' , (req , res) => {
 	}
 	
 })
+
+router.post('/post_comments' , (req , res) => {
+	const resData =  JSON.parse(Object.keys(req.body)[0])
+	const id_uniqe = uniqid()
+		const data = {
+			name : resData.name,
+			msg : resData.msg ,
+			img : resData.img,
+			id_user : resData.id_user   , 
+		}
+		if (req.session.name) {
+			console.log(resData)
+			comments_postes.updateOne({id_post : resData.id_post} , {$push :{comments : data }}).then(d => console.log(d))
+		}else {
+
+			res.send({"status" : false , "msg" : "you ara not authorize to Access this data"})
+		}
+		
+		
+		
+
+		res.send('yes')
+
+	})
+	
+router.get('/get_comments/:id'  , (req , res) => {
+	if (req.session.name) {
+			comments_postes.findOne({id_post : req.params.id}).then(data => {
+			res.send(data)
+		})
+	}else {
+		res.send({"status" : false , "msg" : "you ara not authorize to Access this data"})
+	}
+	
+	
+
+})
+
 module.exports = router ;
 
 

@@ -2,46 +2,27 @@ import React , {useState , useEffect} from 'react' ;
 import {Link} from 'react-router-dom' ;
 import axios from 'axios' ;
 import '../css/postes.css' ;
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome' ;
-import { faPaperPlane , 
-faThumbsUp, faMessage , faShare
-} from '@fortawesome/free-solid-svg-icons'; 
 import CreatePost from './Createpost.jsx' ;
 import Story from './Story.jsx' ; 
 import Groups from './Groups.jsx' ;
-
 import Likes from './Likes.jsx' ;
 
-// const img =  require('../images/avatar.jpg') ;
 
-
-// const logo = require('../images/avatar.jpg')
 
 function Postes(props) {
 
 	
 	const [clickState , setClickState] = useState(false) ;
 	const [datauser ,setdata] = useState(null)
-
+	const receive_public_data = props.user_public_data ;
+	console.log(receive_public_data)
     useEffect(() => {
-    	if (!props.dataUser) {
-    		axios.get(`/route/information_user/${sessionStorage.getItem("session")}`).then((data) => {
-			setdata(data.data)
-			return
-		})
-    	}else {
-    		
-    		setdata(props.dataUser)
+    	
+    		axios.get(`/route/information_user/${sessionStorage.getItem("session")}`).then((data) => setdata(data.data) )
 
-    	}
-
-		return () => {
-    		setdata(null)
-    	}
-
-
-	} , [props.dataUser])
+	} , [])
 	
+
 	
 	return (
 
@@ -51,17 +32,17 @@ function Postes(props) {
 				<div className='postes-news-all'>
 					<CreatePost data={datauser} />
 					<div className='postes-news'>
-					{
-						datauser ? (
-							datauser?.postes.map((data , index) => {
+					{	receive_public_data ? (
+							receive_public_data.map((ele_parent) => {
+								return	ele_parent?.postes?.map((data , index) => {
 
 							return (
 								<div className='cart' key={`${index}h`}>
 									<div className='head' >
 									 	<div className='info'>
-										 	<Link to={'/profile'} state={{"id" : datauser?.id_user}}><img src={datauser?.poster_img} alt='logo' /></Link>
+										 	<Link to={'/profile'} state={{"id" : ele_parent?.id_user}}><img src={ele_parent?.poster_img} alt='logo' /></Link>
 										 	<div className='text'>
-										 		<span>{datauser?.full_Name}</span>
+										 		<span>{ele_parent?.full_Name}</span>
 											 	<span>{data.date.slice(0 , 10)}</span>
 										 	</div>
 									 	</div>
@@ -87,14 +68,16 @@ function Postes(props) {
 										{data?.body}	
 									</p>
 									{
-										data?.image.length != 0 ? <img src={data?.image } alt='myphoto' /> : ''
+										data?.image !== '/images/public_img/undefined' ? <img src={data?.image } alt='myphoto' /> : ''
 									}
 									
-									<Likes />
+									<Likes user_public_data={data} user_spcific_data={datauser} />
 					        	</div>
 							)
 						})
-							): ''
+							})
+						) : ''
+
 					}
 					</div>
 				</div>

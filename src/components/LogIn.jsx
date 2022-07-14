@@ -40,7 +40,7 @@ function Login(props) {
 			.then((res) => {
 			
 			setData({"status" : res.status})
-			console.log(res.status)
+			
 			if (res.status) {
 				window.location.pathname = '/home';
 				

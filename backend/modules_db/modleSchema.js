@@ -20,12 +20,24 @@ const usersInframtionSchema = new mongoose.Schema({
 		socil_link : String, 
 		
 })
+const comments_Schema =  new mongoose.Schema({
+	name : String ,
+	date : {type : Date , default : Date.now},
+	msg : String ,
+	img : String , 
+	id_user : String,
 
+
+})
+const container_postes_comments = new mongoose.Schema({
+	id_post : String , 
+	comments : [comments_Schema] ,
+})
 const phostesSchema = new mongoose.Schema({
 
 
 		image : String ,
-		comments : Array ,
+		id_post : String ,
 		title : String ,
 		body : String,
 		date : {type : Date , default : Date.now} ,
@@ -64,7 +76,7 @@ const SchemaInfo_users = new mongoose.Schema({
 
 const users =  mongoose.model('accounts_user' , SchemaAccount)
 const info_users = mongoose.model('info_users' , SchemaInfo_users )
+const  comments_postes = mongoose.model('comments_postes' , container_postes_comments)
 
 
-
-module.exports = {users , info_users }
+module.exports = {users , info_users  , comments_postes}

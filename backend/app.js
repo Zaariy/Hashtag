@@ -19,7 +19,8 @@ app.use(session({
 	saveUninitialized : true ,
 	cookie : {maxAge : oneDay}
 }))
-app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/route' , route) ;
 app.use('/upload' , uploadFiles)
 app.use('/register' , regiter)
@@ -28,7 +29,6 @@ app.use('/register' , regiter)
 app.use((req ,res , next) => {
 	var imagepath =  path.join(__dirname  , (req.url || 'none')) ;
 	fs.stat(imagepath , (err , info ) => {
-		// console.log(err)
 		if (err) {
 			next();
 			return
@@ -42,7 +42,6 @@ app.use((req ,res , next) => {
 	})
 
 })
-
 
 app.get('/images' , (req ,res) => {
 
