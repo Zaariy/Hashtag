@@ -1,70 +1,107 @@
-# Getting Started with Create React App
+# HASHTAG Social Media Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## overview :
 
-## Available Scripts
+**HASHTAG** is a small project it builds like social media website you can post your images and your story like any other social media website, in **HASHTAG** website is still in development it needs a lot of features to add.
 
-In the project directory, you can run:
+## The Technologies we used :
 
-### `npm start`
+In this small project we usded for :<br>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **FrontEnd**<br>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  - HTML<br>
+  - CSS<br>
+  - Javascript <br>
+  - Fontawesome <br>
+  - Rest Full Api <br>
+  - React Js <br>
 
-### `npm test`
+- **backEnd**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  - Node Js <br>
+  - express Js <br>
+  - MongoDb <br>
+  - Build Rest Full Api <br>
 
-### `npm run build`
+## Some challenges we faced and some features I hope to add to the project :
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+I had faced many challenges, especially with the backend in MongoDb some queries didn't work with me and it takes to me a lot of time but I fixed them, and I hope to add some features like Chats and Following Friends each other.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## How to install HASHTAG project :
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1 - First, make sure you have Node js installed by running the command `node -v `
+<br> Make sure you have like this results : <br>
 
-### `npm run eject`
+![results image](/imagesReadme/node.PNG)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+If you don't have like these results go to [Node js Download ](https://nodejs.org/en/download/) and install it on your machine.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2 - Seconde, make sure you have MongoDb installed if not go to [Monog Db Download ](https://www.mongodb.com/try/download/community) and install it on your machine.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3 - Now go to your terminal and run this command to download project on your local machine. <br>
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+`git clone https://github.com/Zaariy/Hashtag.git`
 
-## Learn More
+<br> Make sure you have like this results in your Folder : <br>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![results image](/imagesReadme/gitClone.PNG)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+4 - Now go to backend folder , path folder is : <mark>/Hashtag/backend</mark> <br>
+And start installing dependencies by running this command in your Terminal : `npm install --save`
 
-### Code Splitting
+<br> Make sure you have like this results in your Terminal : <br>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+![results image](/imagesReadme/depBackend.PNG)
 
-### Analyzing the Bundle Size
+5 - Now go back to the folder <mark>/Hashtag</mark> and install dependencies React js <br>
+by running command ` npm i`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+6 - Now let's do some settings on file <mark>/backend/Router.js</mark> <br>
+go to the line 15 and put your local url MongoDb to connect with Database , Default value is : `mongodb://localhost:27017/hashtag` and don't forget to add <mark>/hashtag</mark> in last of url .
 
-### Making a Progressive Web App
+7 - finally it is last step , go to backend Folder and run command : `npm start ` <br>
+And then go back to the Folder Hashtag and run command : `npm start` .
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+<br> Make sure you have like these results in your Terminal : <br>
 
-### Advanced Configuration
+![results image](/imagesReadme/resBackend.PNG)
+![results image](/imagesReadme/resFrontEnd.PNG)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Let's take a look at Roadmap Components and their Child's
 
-### Deployment
+    Profile
+        |__ Postes
+        |__ Photos
+        |__ about
+        |__ Friends
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+    Mainpage
+        |__ Navigation
+        |__ Postes
+            |__ createPhost
+            |__ Likes
+                |__ comments
+        |__ sidePhotos
+        |__ sideFriends
+        |__ story
+        |__ groups
 
-### `npm run build` fails to minify
+    Settingsprofile
+        |__ Navigation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Documentation :
+
+## How we can pass data from parents to their children's ?
+
+As you see above every parent component pass data to their children by parameter or "**Props**" call <mark>**ueser_public_data**</mark> if data was public and if it was for just a user it call <mark>**user_spcific_data**</mark> , and when we want to recieve this data , we recieve it by parameter call
+<mark>**recieve_public_data**</mark> if data was public and if it was for just a user it call <mark>**recieve_spcific_data**</mark> As you can see in this picuter :
+<br>
+
+![logo ](/imagesReadme/user_pass_data.PNG)
+
+## How we can pass Childrens from componentns to another components ?
+
+if we want to pass children component to another component we pass it through parameter or "**Props**" call <mark>**Child_pass_data** </mark> As you see in this picter :
+
+![logo ](/imagesReadme/childPass.PNG)

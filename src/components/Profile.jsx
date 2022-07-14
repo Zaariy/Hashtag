@@ -4,7 +4,6 @@ import Fetch_api from '../fetch_api_data.js' ;
 import Loading from './LoadingPage.jsx' ;
 import '../css/profile.css';
 import Navigation from './Navigation.jsx' ;
-import axios from 'axios' ;
 import Postes from './Postes.jsx' ;
 import Photos from './Photos.jsx' ;
 import About from  './AboutPersonProfile.jsx' ;
@@ -12,12 +11,7 @@ import Friends from './FriendsRequests.jsx' ;
 import SideFriends from './SideBarFriends.jsx';
 import SidePhotos from './SideBarPhotos.jsx' ;
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome' ;
-import {faPencil , 
-	faGear , 
-	faMessage , 
-	faThumbsUp , 
-	faCheck
-} from '@fortawesome/free-solid-svg-icons'; 
+import {faPencil , faGear } from '@fortawesome/free-solid-svg-icons'; 
 
 
 function  Profile(props) {
@@ -41,11 +35,10 @@ function  Profile(props) {
 
 
 
-const images = [1,1,1] ;
 function HeaderProfile(props) {
 	const [componentRunder , setComponent] = useState('Timeline') ;
 	const receive_public_data = props.user_public_data ;
-	const data = receive_public_data
+	const data = receive_public_data // 
 	
 	function slidingColors (e) {
 		const element =  document.querySelectorAll('.profile-page .nav ul li') ;
@@ -70,11 +63,11 @@ function HeaderProfile(props) {
 		
 
 			if (componentRunder === 'Timeline')  {
-				return <Postes user_public_data={[receive_public_data]}  child={[<SidePhotos /> , <SideFriends />]} />  
+				return <Postes user_public_data={[receive_public_data]}  Child_pass_data={[<SidePhotos /> , <SideFriends />]} />  
 			}else if (componentRunder === 'Photos') {
-				return <Photos dataUser={data} />
+				return <Photos user_spcific_data={data} />
 			}else if (componentRunder === 'About') {
-				return <About data={data?.information} />
+				return <About user_spcific_data={data?.information} />
 			} else if (componentRunder === 'Friend') {
 				return <Friends />
 			}

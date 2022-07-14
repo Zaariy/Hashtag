@@ -9,7 +9,9 @@ const fs = require('fs') ;
 const path =  require('path') ;
 const multer = require('multer');
 
-////////////////////  Databases ////////////////////////////
+
+
+// Here put your local url for Mongodb  between url='put you url '
 const url =  'mongodb://localhost:27017/hashtag' ;
 
 async function StartMongoose() {
@@ -28,11 +30,13 @@ async function StartMongoose() {
 
 // Start Database Mongoose
 StartMongoose()
-/////////////////////////////////////////////////////////////
 
 
 
-
+/*
+ 	This path for when the user logs in 
+	it give him a session to be able to move on paths 
+ */
 router.get('/session' , (req , res) => {
 	if (req.session.name) {
 		res.status(200).send({"session" : req.session.name})
@@ -41,6 +45,8 @@ router.get('/session' , (req , res) => {
 	}
 
 })
+
+// this is for when the user logs out from website, this function  destroys the session
 router.post('/logout' , (req ,res) => {
 	req.session.destroy()
 	res.send({'status' : 'seccess'})

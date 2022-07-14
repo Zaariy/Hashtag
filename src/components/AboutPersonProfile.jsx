@@ -1,6 +1,7 @@
 import React from 'react' ;
 
-function About ({data}) {
+function About({ user_spcific_data }) {
+	const resceive_spcific_data =  user_spcific_data
 
 	return (
 		<div className='containerMainpage' >
@@ -11,38 +12,38 @@ function About ({data}) {
 					<li>
 						<span>About Me</span>
 						<span>
-							{data?.about}
+							{resceive_spcific_data?.about}
 						</span>
 					</li>
 					
 					<li>
 						<span>Mobile</span>
 						<span>
-								{data?.mobile}
+								{resceive_spcific_data?.mobile}
 						</span>
 					</li>
 					<li>
 						<span>Birth Date: </span>
 						<span>
-								{data?.address}
+								{resceive_spcific_data?.address}
 						</span>
 					</li>
 					<li>
 						<span>Live :</span>
 						<span>
-							{data?.live_in}
+							{resceive_spcific_data?.live_in}
 						</span>
 					</li>
 					<li>
 						<span>Gender</span>
 						<span>
-								{data?.gender}
+								{resceive_spcific_data?.gender}
 						</span>
 					</li>
 					<li>
 						<span>Website</span>
 						<span>
-								{data?.socil_link}
+								{resceive_spcific_data?.socil_link}
 						</span>
 					</li>
 				</ul>

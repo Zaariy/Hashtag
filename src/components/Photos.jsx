@@ -4,7 +4,7 @@ import {faThumbsUp, faMessage } from '@fortawesome/free-solid-svg-icons';
 
 
 
-function Photos ({dataUser}) {
+function Photos ({user_spcific_data}) {
 	
 	return (
 		<div className='containerMainpage' >
@@ -12,7 +12,7 @@ function Photos ({dataUser}) {
 			<h2>Photos</h2>
 			<div className='poster-photos-profile'>
 				{
-					dataUser?.postes.map((data , index) => {
+					user_spcific_data?.postes.map((data , index) => {
 						if (data.image === '/images/public_img/undefined') {
 							return
 						}

@@ -15,7 +15,6 @@ function Postes(props) {
 	const [clickState , setClickState] = useState(false) ;
 	const [datauser ,setdata] = useState(null)
 	const receive_public_data = props.user_public_data ;
-	console.log(receive_public_data)
     useEffect(() => {
     	
     		axios.get(`/route/information_user/${sessionStorage.getItem("session")}`).then((data) => setdata(data.data) )
@@ -84,7 +83,7 @@ function Postes(props) {
 				<div className='childs-props'>
 
 				{
-					props.child ?  props.child.map((ele , index) => {
+					props.Child_pass_data ?  props.Child_pass_data.map((ele , index) => {
 						return (
 								<div key={index}>
 									{ele}
