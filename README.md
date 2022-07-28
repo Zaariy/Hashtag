@@ -1,3 +1,4 @@
+![img](/imagesReadme/logo.png)
 # HASHTAG Social Media Project
 
 ![img](https://img.shields.io/github/issues/Zaariy/Hashtag)
