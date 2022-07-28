@@ -13,7 +13,7 @@ const router = express.Router()
 */
 var storageProfileImg = multer.diskStorage({
 	destination:  (req , file , callBack) => {
-		 callBack(null , 'images/profile/' )
+		 callBack(null , './images/profile' )
 	},
 	filename :  (req , file , callBack) => {
 		
@@ -25,7 +25,8 @@ var storageProfileImg = multer.diskStorage({
 const mutlProfileImg =  multer({
 	storage : storageProfileImg
 })
-	
+
+// this is for uploading profile picture
 router.post('/images' , mutlProfileImg.single('img') , (req , res) => {
 
 		if (req.session.id_user_login) {
