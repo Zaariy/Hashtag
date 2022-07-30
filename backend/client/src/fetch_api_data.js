@@ -1,5 +1,5 @@
 import {useEffect , useState} from 'react' ;
-import { axiosInc } from './config' ;
+import axiosInc from '../config.js' ;
 
 
 function Fetch_api (url) {

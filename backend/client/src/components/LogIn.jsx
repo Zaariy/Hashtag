@@ -3,7 +3,7 @@ import '../css/singup.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom';
-import { axiosInc } from '../config';
+import axiosInc from '../config.js';
 
 const img = require('../images/baner.png');
 
