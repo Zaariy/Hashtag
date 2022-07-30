@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import '../css/createpost.css';
 import FormData from 'form-data';
-import axiosInc from '../config.js';
+import { axiosInc } from '../config';
 
 
 
