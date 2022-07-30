@@ -14,7 +14,7 @@ function Postes(props) {
 
 	const [clickState, setClickState] = useState(false);
 	const [datauser, setdata] = useState(null)
-	const receive_public_data = props.user_public_data;
+	const receive_public_data = props?.user_public_data;
 	useEffect(() => {
 
 		axios.get(`/route/information_user/${sessionStorage.getItem("session")}`).then((data) => setdata(data.data))
@@ -32,7 +32,7 @@ function Postes(props) {
 					<CreatePost data={datauser} />
 					<div className='postes-news'>
 						{receive_public_data ? (
-							receive_public_data.map((ele_parent) => {
+							receive_public_data?.map((ele_parent) => {
 								return ele_parent?.postes?.map((data, index) => {
 
 									return (
