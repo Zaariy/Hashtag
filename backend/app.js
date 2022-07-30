@@ -47,9 +47,16 @@ app.get('/images' , (req ,res) => {
 
 	res.end()
 })
-app.listen(8080 , (err) => {
+
+app.use(express.static(path.join(__dirname, "/client/build")));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
+});
+
+app.listen(process.env.PORT || 5000 , (err) => {
 	if (err) {
 		console.log(err)
 	}
-	console.log("Server is runing on : http://localhost:8080")
+	console.log("Server is runing ")
 })

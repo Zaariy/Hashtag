@@ -1,10 +1,9 @@
 const express = require('express') ;
 const router = express.Router() ;
-const session = require('express-session') ;
-const uniqid =  require('uniqid') ;
+const { MongoClient, ServerApiVersion } = require('mongodb');
 const body =  require('body-parser') ;
 const mongoose = require('mongoose') ;
-const {users , info_users , comments_postes} = require('./modules_db/modleSchema.js') ;
+const {info_users , comments_postes} = require('./modules_db/modleSchema.js') ;
 const fs = require('fs') ;
 const path =  require('path') ;
 const multer = require('multer');
@@ -12,24 +11,21 @@ const multer = require('multer');
 
 
 // Here put your local url for Mongodb  between url='put you url '
-const url =  'mongodb://localhost:27017/hashtag' ;
+const url =  "mongodb+srv://zaariymohamed:zaariymohamed1monogdb@cluster0.7pmo5sg.mongodb.net/hashtag?retryWrites=true&w=majority" ;
+// const url = 'mongodb://localhost:27017/hashtag'
 
-async function StartMongoose() {
-	try {
-		await mongoose.connect(url , {
-			useNewUrlParser : true , 
-			useUnifiedTopology : true 
+mongoose.connect(url , {
+	useNewUrlParser : true , 
+	useUnifiedTopology: true,
+})
+mongoose.connection.on('connected', () => {
+	console.log('Mongos is connected')
+})
 
-		})
 
-		console.log("Database Connected" , url)
-	}catch (err) {
-		console.log(err)
-	}
-}
 
 // Start Database Mongoose
-StartMongoose()
+
 
 
 
