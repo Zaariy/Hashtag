@@ -1,6 +1,7 @@
 import './App.css';
 import SingUp from './components/singUp/SingUp' ;
 import Login from './components/singIn/LogIn' ;
+import axios from 'axios';
 import Search from './components/search/Search.jsx' ;
 import MainPage from './components/main/Mainpage.jsx' ;
 import Profile from './components/profile/Profile' ;
@@ -13,8 +14,7 @@ function App() {
   
 
   useEffect(() => {
-
-      fetch('/route/session' , {method : 'GET'}).then((data) => data.json()).then((data) => {
+      axios.get('/route/session').then((data) => data.data).then((data) => {
           if (data.session !== false) {
             setSession(data.session);
           }else {
@@ -58,7 +58,7 @@ function App() {
       </BrowserRouter >
 
 
-    )
+  )
 }
 
 export default App;
