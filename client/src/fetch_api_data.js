@@ -1,5 +1,5 @@
 import {useEffect , useState} from 'react' ;
-import { axiosInc } from './config' ;
+import axios from 'axios' ;
 
 
 function Fetch_api (url) {
@@ -8,7 +8,7 @@ function Fetch_api (url) {
 	const [loading ,setloading] = useState(false)  ;
 
 	useEffect(() => {
-		axiosInc.get(url).then((datafetch) => {
+		axios.get(url).then((datafetch) => {
 
 			setdata(datafetch.data)
 			setloading(true)

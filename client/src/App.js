@@ -1,10 +1,10 @@
 import './App.css';
-import SingUp from './components/SingUp.jsx' ;
-import Login from './components/LogIn.jsx' ;
-import Search from './components/Search.jsx' ;
-import MainPage from './components/Mainpage.jsx' ;
-import Profile from './components/Profile.jsx' ;
-import SettingsProfile from './components/Settingsprofile.jsx' ;
+import SingUp from './components/singUp/SingUp' ;
+import Login from './components/singIn/LogIn' ;
+import Search from './components/search/Search.jsx' ;
+import MainPage from './components/main/Mainpage.jsx' ;
+import Profile from './components/profile/Profile' ;
+import SettingsProfile from './components/settingsProfile/Settingsprofile' ;
 import {useEffect , useState} from 'react' ;
 import {Routes , Route , BrowserRouter  } from 'react-router-dom' ;
 
