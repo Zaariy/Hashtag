@@ -16,12 +16,14 @@ function Postes(props) {
 	const [datauser, setdata] = useState(null)
 	const receive_public_data = props?.user_public_data;
 	useEffect(() => {
-
 		axios.get(`/route/information_user/${sessionStorage.getItem("session")}`).then((data) => setdata(data.data))
-
 	}, [])
 
-
+	const hundleShowOptions = (id) => {
+		//  this function it is show us the option menu at the left top of the poste
+		const listes = document.querySelector(`[uniqid="${id}"]`)
+		listes.style.visibility = clickState ? 'visible' : 'hidden'
+	}
 
 	return (
 
@@ -46,8 +48,11 @@ function Postes(props) {
 													</div>
 												</div>
 												<div className='select'>
-													<span onClick={() => setClickState(!clickState)} >...</span>
-													<ul style={{ 'visibility': clickState ? 'visible' : 'hidden' }} >
+													<span onClick={(e) => {
+														hundleShowOptions(index)
+														setClickState(!clickState)
+													}} >...</span>
+													<ul uniqid={index} >
 														<li>
 															Save this poste
 															<span>seve this on your account</span>
