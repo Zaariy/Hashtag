@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import Fetch_api from '../../fetch_api_data.js';
+import React, { useState , useEffect } from 'react';
+import { useLocation  } from 'react-router-dom';
 import Loading from '../loading/LoadingPage.jsx';
 import './profile.css';
 import Navigation from '../nav/Navigation.jsx';
@@ -12,19 +11,45 @@ import SideFriends from './SideBarFriends.jsx';
 import SidePhotos from '../main/SideBarPhotos.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faGear } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from "react-redux";
+import axios from 'axios';
 
-
-function Profile(props) {
-	const useLoc = useLocation()
-	const id = useLoc.state?.id
-	const { data_fetch, loading } = Fetch_api(`/route/information_user/${id ? id : sessionStorage.getItem("session")}`)
+function Profile() {
+	const receiveIdUsers = useLocation().state
+	const [data , setData] = useState()
+	const [loading, setLoading] = useState(false);
+	const globaldatauser = useSelector(state => state.userData.data);
+	useEffect(() => {
+		if (receiveIdUsers?.id) {
+			axios({
+				url: "/api/userinfo",
+				method: "POST",
+				data: {
+					id_user_platform: receiveIdUsers.id,
+					token: localStorage.getItem("token")
+				}
+			}).then(resoponseData => {
+				setData((prv) => {
+					return prv =  resoponseData.data
+				})
+				setLoading(true)
+			})
+			
+			
+		} else {
+			setData(globaldatauser)
+			setLoading(true)
+		}
+		
+	} ,[globaldatauser , receiveIdUsers?.id])
 	return (
+		
 		<>
 			{
-				loading ? (<div className='all-content-profile'>
+				loading	 ? (<div className='all-content-profile'>
 					<Navigation />
 					<div className='profile-page' >
-						<HeaderProfile user_public_data={data_fetch} />
+						<HeaderProfile userdata={data} />
 					</div>
 				</div>) : <Loading />
 
@@ -35,10 +60,10 @@ function Profile(props) {
 
 
 
-function HeaderProfile(props) {
+function HeaderProfile({userdata}) {
 	const [componentRunder, setComponent] = useState('Timeline');
-	const receive_public_data = props.user_public_data;
-	const data = receive_public_data // 
+
+	const data = userdata // 
 
 	function slidingColors(e) {
 		const element = document.querySelectorAll('.profile-page .nav ul li');
@@ -63,11 +88,11 @@ function HeaderProfile(props) {
 
 
 		if (componentRunder === 'Timeline') {
-			return <Postes user_public_data={[receive_public_data]} Child_pass_data={[<SidePhotos />, <SideFriends />]} />
+			return <Postes user_postes={{ postes : userdata.postes }} Child_pass_data={[<SidePhotos />, <SideFriends />]} />
 		} else if (componentRunder === 'Photos') {
-			return <Photos user_spcific_data={data} />
+			return <Photos data={data} />
 		} else if (componentRunder === 'About') {
-			return <About user_spcific_data={data?.information} />
+			return <About data={data?.information} />
 		} else if (componentRunder === 'Friend') {
 			return <Friends />
 		}

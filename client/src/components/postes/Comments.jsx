@@ -1,71 +1,68 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
-
-/*
-	This components render in every Pos
-	on Postes {Postes.jsx} Page 
-*/
+import {useSelector }  from "react-redux";
+import {useForm} from "react-hook-form"
 
 
-function Comments({ event, user_public_data, user_spcific_data }) {
+function Comments({ postdata  , eventOpneCloseComment}) {
 	// const [dataComment] =useState([data])
-	const [inputdata, setInputData] = useState('');
-	const [comments_data, setCommentsData] = useState();
-	const [loading_comments, setLoadingComments] = useState(false);
+	const datauser = useSelector(state => state.userData.data);
+	const { register , handleSubmit} = useForm();
 
 
 
-	useEffect(() => {
 
-		axios.get(`/route/get_comments/${user_public_data.id_post}`).then(data => {
+	function onSubmitComment(data) {
 
-			setCommentsData(data.data)
-			setLoadingComments(true);
-		})
-	}, [user_public_data.id_post])
 
-	function hundleData() {
-		if (inputdata.length === 0) {
-			return
+		const initDataForSend = {
+			name: datauser.full_Name,
+			msg: data.comment,
+			poster_img: datauser.poster_img,
+			id_user_platform: datauser.id_user_platform ,
 		}
 
-		const dataSend = {
-			name: user_spcific_data.full_Name,
-			msg: inputdata,
-			img: user_spcific_data.poster_img,
-			id_user: user_spcific_data.id_user,
-			id_post: user_public_data.id_post
-		}
+		axios({
+			url : "/api/post_comment" ,
+			method : "POST" ,
+			data: {
+				data_comment: initDataForSend,
+				token: localStorage.getItem('token'),
+				id_post: postdata.id_post ,
 
-		axios.post('/route/post_comments', JSON.stringify(dataSend)).then(d => console.log(d))
+			}
+
+		}).then(state => console.log(state.data))
 
 	}
 
 	return (
-		<div className='post-comments' style={{ 'display': event ? 'block' : 'none' }}>
-			{
-				loading_comments ? (
-					comments_data?.comments?.map((data, index) => {
+		<div className='post-comments' style={{ 'display': eventOpneCloseComment ? 'block' : 'none' }}>
+			{	
+					postdata.comments.map((comment, index) => {
+						
 						return (
 							<div className='cart-comments' key={index}>
-								<Link to={'/profile'} state={{ "id": data?.id_user }}><img src={data.img} alt='img' /></Link>
+								<Link to={'/profile'} state={{ "id": comment.id_user_platform }}><img src={comment.img} alt='user pecture' /></Link>
 								<div className='text'>
-									<span>{data.name}</span>
-									<span>{data.date.slice(0, 10)}</span>
+									<span>{comment.name}</span>
+									<span>{comment.date.slice(0, 10)}</span>
 									<p>
-										{data.msg}
+										{comment.msg}
 									</p>
 								</div>
 							</div>
 						)
-					})) : ''
+					})
 			}
 			<div className='send'>
-				<input type='text' name='comment' onChange={(e) => setInputData(e.target.value)} placeholder='Write comment here...' />
-				<FontAwesomeIcon onClick={() => hundleData()} icon={faPaperPlane} />
+				<form onSubmit={handleSubmit(onSubmitComment)}>
+					<input type='text' {...register('comment')} name='comment' placeholder='Write comment here...' />
+					<FontAwesomeIcon  icon={faPaperPlane} />
+				</form>
 			</div>
 
 		</div>

@@ -1,29 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import './postes.css';
 import CreatePost from '../createPost/Createpost';
 import Story from '../main/Story';
 import Groups from '../main/Groups.jsx';
 import Likes from './Likes.jsx';
+import { useSelector} from 'react-redux';
+import Comments from './Comments';
 
 
 
 function Postes(props) {
-
-
+	let public_postes_data = useSelector(state => state.public_postes )
+	const [openCloseComment , setOpenCloseComment] = useState(false);
 	const [clickState, setClickState] = useState(false);
-	const [datauser, setdata] = useState(null)
-	const receive_public_data = props?.user_public_data;
-	useEffect(() => {
-		axios.get(`/route/information_user/${sessionStorage.getItem("session")}`).then((data) => setdata(data.data))
-	}, [])
 
+	if (props.user_postes) {
+		// check if data came from public postes data or from postes of user
+		public_postes_data =  props.user_postes
+	}
 	const hundleShowOptions = (id) => {
 		//  this function it is show us the option menu at the left top of the poste
 		const listes = document.querySelector(`[uniqid="${id}"]`)
 		listes.style.visibility = clickState ? 'visible' : 'hidden'
 	}
+	
 
 	return (
 
@@ -31,20 +32,19 @@ function Postes(props) {
 
 			<div className='all-postes-content'>
 				<div className='postes-news-all'>
-					<CreatePost data={datauser} />
+					<CreatePost  />
 					<div className='postes-news'>
-						{receive_public_data ? (
-							receive_public_data?.map((ele_parent) => {
-								return ele_parent?.postes?.map((data, index) => {
+						{
+							public_postes_data.postes?.map((post, index) => {
 
-									return (
-										<div className='cart' key={`${index}h`}>
+								return (
+									<div className='cart' key={`${index}h`}>
 											<div className='head' >
 												<div className='info'>
-													<Link to={'/profile'} state={{ "id": ele_parent?.id_user }}><img src={ele_parent?.poster_img} alt='logo' /></Link>
+													<Link to={'/profile'} state={{ "id": post?.id_user_platform }}><img src={post?.poster_img} alt='logo' /></Link>
 													<div className='text'>
-														<span>{ele_parent?.full_Name}</span>
-														<span>{data.date.slice(0, 10)}</span>
+														<span>{post?.full_Name}</span>
+														<span>{post.date.slice(0, 10)}</span>
 													</div>
 												</div>
 												<div className='select'>
@@ -69,19 +69,21 @@ function Postes(props) {
 												</div>
 											</div>
 											<p>
-												{data?.body}
+												{post?.body}
 											</p>
 											{
-												data?.image !== '/images/public_img/undefined' ? <img src={data?.image} alt='myphoto' /> : ''
+												post?.image !== undefined ? <img src={`/uploads/images/${post?.image}`} alt='myphoto' /> : ''
 											}
 
-											<Likes user_public_data={data} user_spcific_data={datauser} />
-										</div>
-									)
-								})
+											<Likes datapost={post} openCloseCommentEvent={() => {
+												setOpenCloseComment((prv) => {
+													return prv =  !prv
+												})
+										}} />
+											<Comments postdata={post} eventOpneCloseComment={openCloseComment} ></Comments>
+									</div>
+								)
 							})
-						) : ''
-
 						}
 					</div>
 				</div>
@@ -106,5 +108,6 @@ function Postes(props) {
 		</div>
 	)
 }
+
 
 export default Postes;

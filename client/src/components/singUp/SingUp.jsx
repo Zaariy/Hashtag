@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './singup.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom';
+import {useForm} from 'react-hook-form'
 import axios from 'axios';
+
 const img = require('../../images/baner.png');
 
 function BoxAlert(props) {
@@ -27,50 +29,29 @@ function BoxAlert(props) {
 }
 
 function SingUp() {
+	const { register , handleSubmit } = useForm();
+	const [response, setResponse] = useState({
+		msg: '' ,
+		status : '' ,
+		error : ''
+	});
+	const onSubmit = data => {
+		axios({
+			url: '/api/singup',
+			method: 'POST' ,
 
-	const [fname, setFname] = useState('')
-	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('');
-	const [dataIsReady, setDataIsReady] = useState(false);
-	const [state, setState] = useState(false);
-	useEffect(() => {
-		submitData()
-
-	})
-	function chickInputs() {
-		if (fname.length !== 0 && password.length !== 0 && email.length !== 0) {
-			return true
-		} else {
-			return false
-		}
+			data: {
+				fullName: data.fullName,
+				password: data.password,
+				email: data.email
+			}
+			
+		}).then((res) => {
+			setResponse(res.data)
+		})
 	}
-
-	function submitData() {
-
-		if (dataIsReady && chickInputs()) {
-			axios.post('/register/singup', JSON.stringify({ "email": email, 'password': password, 'full_Name': fname })).then((res) => res.data)
-				.then((res) => {
-					console.log(res.data)
-					setState(res.data)
-					if (res.data) {
-						console.log('redirect')
-					}
-					setDataIsReady(false)
-
-
-				})
-		}
-
-	}
-
-	function handlEvent(event) {
-		event.preventDefault();
-		setDataIsReady(true)
-	}
-
-
+	
 	return (
-
 		<div className="sing-up">
 			<div className='dark' ></div>
 			<div className="images">
@@ -82,17 +63,29 @@ function SingUp() {
 					Enter your Email Address and password to access
 					admin panle
 				</p>
-				<form action='/' method='POST' onSubmit={(e) => handlEvent(e)}>
+				 <form onSubmit={handleSubmit(onSubmit)}>
 					<label>
 						Your Full Name
 					</label>
-					<input type='text' onChange={(e) => setFname(e.target.value)} placeholder='Your Full Name' />
+					{
+						response.error === 'fullName' ?  <span className='danger'>{response.msg}</span> : null	
+					}
+	
+					<input type='text' {...register("fullName")} placeholder='Your Full Name' />
 					<label>
 						Email address
 					</label>
-					<input type='email' onChange={(e) => setEmail(e.target.value)} placeholder='Email address' />
+										{
+						response.error === 'email' ?  <span className='danger'>{response.msg}</span> : null	
+					}
+	
+					<input type='email' {...register("email")} placeholder='Email address' />
 					<label>Password </label>
-					<input type='password' onChange={(e) => setPassword(e.target.value)} placeholder='Passwrod' />
+										{
+						response.error === 'password' ?  <span className='danger'>{response.msg}</span> : null	
+					}
+	
+					<input type='password' {...register("password")} placeholder='Passwrod' />
 					<div className='ruls'>
 
 						<input type='checkbox' name='ruls' />
@@ -114,7 +107,7 @@ function SingUp() {
 				</form>
 
 			</div>
-			{state ? <BoxAlert /> : ''}
+			{response.status === 'ok' ? <BoxAlert /> : ''}
 		</div>
 	)
 }

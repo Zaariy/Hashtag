@@ -1,60 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './singin.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import axios from 'axios';
+
 
 const img = require('../../images/baner.png');
 
-function Login(props) {
-	const [data, setData] = useState({ status: true })
-	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
-	const [dataIsReady, setDataIsReady] = useState(false);
+function Login() {
+	const { register, handleSubmit } = useForm();
+	const [response, setResponse] = useState({
+		msg: '' ,
+		status: '',	
+	});
 
-
-
-	useEffect(() => {
-		if (dataIsReady && chickInputs()) {
-			chickLogin();
-
-		}
-
-		return () => {
-			setDataIsReady(false)
-		}
-	})
-
-	function chickInputs() {
-		if (password.length !== 0 && email.length !== 0) {
-			return true
-		} else {
-			return false
-		}
+		
+	const redirect = () => {
+		window.location.pathname = '/home';
 	}
-
-	function chickLogin() {
-
-		axios.post('/register/singin', JSON.stringify({ email: email, password: password })).then((res) => res.data)
-			.then((res) => {
-
-				setData({ "status": res.status })
-
-				if (res.status) {
-					window.location.pathname = '/home';
-
-				} else {
-					setDataIsReady(false)
-				}
-			})
+	const onSubmit = data => {
+		axios({
+			url: "/api/login",
+			method: "POST",
+			data: {
+				email: data.email,
+				password: data.password
+			}
+		}).then((res) => {
+			setResponse(res.data)
+			if (res.data.token) {
+				localStorage.setItem('token', res.data.token);
+				redirect()
+			}
+		})
 	}
-
-
-	function handlEvent(event) {
-		event.preventDefault();
-		setDataIsReady(true)
-	}
+		
+	
 
 	return (
 		<div className="sing-up">
@@ -68,14 +51,17 @@ function Login(props) {
 					Enter your Email Address and password to access
 					admin panle
 				</p>
-				<form action='/home' onSubmit={(e) => handlEvent(e)} method='POST'>
+
+				<form onSubmit={handleSubmit(onSubmit)}>
 					<label>
 						Email address
 					</label>
-					<input type='email' name='email' onChange={(e) => setEmail(e.target.value)} placeholder='Email address' />
-					<span className='danger'>{data?.status ? "" : 'email or password is not correct'}</span>
+					<input type='email' name='email' {...register('email')}  placeholder='Email address' />
+					{
+						response.status === 'fail' ?<span className='danger'>{response.msg}</span> : null
+					}
 					<label>Password </label>
-					<input type='password' name='password' onChange={(e) => setPassword(e.target.value)} placeholder='Passwrod' />
+					<input type='password' name='password'{...register('password')}  placeholder='Passwrod' />
 					<div className='ruls'>
 
 						<input type='checkbox' name='ruls' />
