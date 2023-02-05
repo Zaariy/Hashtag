@@ -6,6 +6,9 @@ import { decodeJWTtoken} from '../../utils/helperFunctions';
 import { useSelector } from 'react-redux';
 import FormData from 'form-data';
 import axios from 'axios';
+import { setRander } from '../main/sliceRerander';  
+import { useDispatch } from 'react-redux';
+
 
 /*
  I did 'PopWindow and CreatePostChild' as component childs 
@@ -19,7 +22,7 @@ function CreatePost() {
 	const [selectedImg, setSelectedImg] = useState();
 	const [file, setFile] = useState()
 	const data = useSelector(state => state.userData.data)
-
+	const dispatch = useDispatch();
 
 	function showUploadImg(event) {
 		// This function shows us an image we had selected before		
@@ -53,7 +56,14 @@ function CreatePost() {
 
 			data: formdata,
 
-		}).then((data) => data.data.status ? setState(false) : '')
+		}).then((data) => {
+
+			if (data.data.status === 'ok') {
+				setState(false); 
+				dispatch(setRander())
+
+			} 
+		})
 	}
 	function PopWindow() {
 		return (

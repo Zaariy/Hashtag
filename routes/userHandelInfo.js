@@ -3,6 +3,9 @@ const handleInfoUser = express.Router();
 const jwt = require("jsonwebtoken");
 const userLogin = require("../model/userLogin");
 const userMain = require("../model/userMain");
+const randomSt = require("random-string");
+const multer = require("multer");
+const path = require("path");
 const public_postes = require("../model/public_postes");
 
 handleInfoUser.post("/userinfo", async (req, res) => {
@@ -166,4 +169,114 @@ handleInfoUser.post("/updateinformationuser", async (req, res) => {
     });
   }
 });
+
+handleInfoUser.post("/user_search_by_name", async (req, res) => {
+  const { token, full_Name } = req.body;
+  if (!token) {
+    return res.send({
+      status: "fail",
+      msg: "Please add token",
+      error: "token",
+    });
+  }
+
+  if (!full_Name) {
+    return res.send({
+      status: "fail",
+      msg: "Please add full Name of user",
+      err: "full_Name",
+    });
+  }
+
+  try {
+    if (jwt.verify(token, process.env.SECRIT_KEY_JWT)) {
+      const user = await userMain.find({ full_Name: full_Name });
+      if (user.length !== 0) {
+        res.send({
+          status: "ok",
+          msg: "user founded",
+          data: user,
+          err: "",
+        });
+      } else {
+        res.send({
+          status: "fail",
+          msg: "user not founded",
+          err: "",
+        });
+      }
+    }
+  } catch {
+    return res.send({
+      status: "fail",
+      msg: "Please check token",
+      err: "token",
+    });
+  }
+});
+
+var NAME_IMG;
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "../", "uploads", "images"));
+  },
+
+  filename: (req, file, cb) => {
+    const RANDOM = randomSt({
+      length: 20,
+      letters: true,
+      specail: false,
+      numeric: true,
+    });
+    NAME_IMG = `${RANDOM}${file.originalname}`;
+    cb(null, NAME_IMG);
+  },
+});
+
+const uploadFile = multer({ storage: storage });
+
+handleInfoUser.post(
+  "/update_image_profile",
+  uploadFile.single("img"),
+  async (req, res) => {
+    const { token, id_user_platform } = req.body;
+    if (!id_user_platform) {
+      res.send({
+        status: "fail",
+        msg: "Please check id user",
+        err: "id user platform ",
+      });
+    }
+    if (!token) {
+      res.send({
+        status: "fail",
+        msg: "Please check user token ",
+        err: "token",
+      });
+    }
+    try {
+      if (jwt.verify(token, process.env.SECRIT_KEY_JWT)) {
+        const user = await userMain.findOne({
+          id_user_platform: id_user_platform,
+        });
+        if (user) {
+          user.poster_img = `/uploads/images/${NAME_IMG}`;
+          user.save();
+          return res.send({
+            status: "ok",
+            msg: "image profile has updated seccussfully",
+            err: "",
+          });
+        }
+      }
+    } catch {
+      res.send({
+        status: "fail",
+        msg: "Please check user token ",
+        err: "token",
+      });
+    }
+  }
+);
+
 module.exports = handleInfoUser;

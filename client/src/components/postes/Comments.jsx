@@ -5,13 +5,14 @@ import { Link } from 'react-router-dom';
 import axios from 'axios'
 import {useSelector }  from "react-redux";
 import {useForm} from "react-hook-form"
-
+import { setRander } from '../main/sliceRerander';
+import { useDispatch } from 'react-redux';
 
 function Comments({ postdata  , eventOpneCloseComment}) {
 	// const [dataComment] =useState([data])
 	const datauser = useSelector(state => state.userData.data);
 	const { register , handleSubmit} = useForm();
-
+	const dispatch = useDispatch();
 
 
 
@@ -35,7 +36,11 @@ function Comments({ postdata  , eventOpneCloseComment}) {
 
 			}
 
-		}).then(state => console.log(state.data))
+		}).then(state => {
+			if (state.data.status === 'ok') {
+				dispatch(setRander())
+			}
+		})
 
 	}
 
@@ -61,7 +66,7 @@ function Comments({ postdata  , eventOpneCloseComment}) {
 			<div className='send'>
 				<form onSubmit={handleSubmit(onSubmitComment)}>
 					<input type='text' {...register('comment')} name='comment' placeholder='Write comment here...' />
-					<FontAwesomeIcon  icon={faPaperPlane} />
+					<button><FontAwesomeIcon  icon={faPaperPlane} /></button>
 				</form>
 			</div>
 

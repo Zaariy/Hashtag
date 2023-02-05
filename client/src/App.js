@@ -7,7 +7,7 @@ import MainPage from "./components/main/Mainpage.jsx";
 import Profile from "./components/profile/Profile";
 import SettingsProfile from "./components/settingsProfile/Settingsprofile";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserData } from "./components/singIn/sliceUserData";
 import { setPostesData } from "./components/main/slicePublicPostes";
 import { decodeJWTtoken } from "./utils/helperFunctions";
@@ -15,6 +15,14 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 function App() {
   const dispatch = useDispatch();
+  /*
+   * reRander : if user update any kind of data in database we'll fetch new data by re-rander
+   * reRander <App> component
+   */
+  const reRander = useSelector(
+    (state) => state.randerComponents.reRanderCounter
+  );
+
   useEffect(() => {
     if (localStorage.getItem("token")) {
       // load user  data from databases
@@ -41,15 +49,12 @@ function App() {
         dispatch(setPostesData({ datapostes: response.data.postes }));
       });
     }
-  }, []);
+  }, [reRander]);
 
   return (
     <BrowserRouter>
       <Routes>
         {localStorage.getItem("token") ? (
-          // this route just for users have sesstion
-          // you can't access this route if you are not
-          // Sinup
           <>
             <Route path="/home" element={<MainPage />} />
             <Route path="/profile" element={<Profile />} />
@@ -59,8 +64,8 @@ function App() {
         ) : (
           <Route path="*" element={<Login />} />
         )}
-        <Route path="/singup" element={<SingUp />} />
 
+        <Route path="/singup" element={<SingUp />} />
         <Route path="/" element={<Login />} />
         <Route path="/singin" element={<Login />} />
       </Routes>

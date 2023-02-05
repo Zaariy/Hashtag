@@ -173,6 +173,11 @@
 	padding-bottom: 10px;
 }
 
+.post-comments .send button {
+	border: none;
+	background: none;
+}
+
 .post-comments .send input {
 	height: 40px;
 	width: calc(100% - 40px);

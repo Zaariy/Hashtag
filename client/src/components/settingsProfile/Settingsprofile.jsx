@@ -5,6 +5,11 @@ import './setting-profile.css';
 import axios from 'axios';
 import {useForm } from "react-hook-form";
 import { useSelector } from 'react-redux';
+import FormData from 'form-data';
+import { decodeJWTtoken} from '../../utils/helperFunctions';
+import { setRander } from '../main/sliceRerander';
+import { useDispatch } from 'react-redux';
+
 
 function PopWindowSeccessSubmit() {
 
@@ -18,47 +23,40 @@ function PopWindowSeccessSubmit() {
 	)
 }
 
-
 function SettingsProfile() {
 
 	const { register, handleSubmit } = useForm()
 	const userdata = useSelector(state => state.userData.data);
-	// const [updateData, setUpdateData] = useState();
-	// const [stateUpdate, setStateUpdate] = useState(false);
 	const [resoultUpdateData, setresulUpdatedata] = useState(false);
-
-
-	// function getValues(e) {
-	// 	// body ...
-	// 	let dataSand = {}
-	// 	let gender = '';
-	// 	e.preventDefault()
-	// 	const array = Array.from(e.target)
-
-	// 	array.map((ele) => {
-
-	// 		if (ele.value.length !== 0) {
-	// 			dataSand[ele.name] = ele.value
-	// 			if (ele.checked) {
-	// 				// console.log(ele.value)
-	// 				gender = ele.value
-	// 			}
-	// 		}
-	// 	})
-	// 	dataSand.gender = 'Male'
-	// 	delete dataSand.submit
-	// 	setUpdateData(dataSand)
-	// 	setStateUpdate(true)
-
-	// }
+	const dispatch = useDispatch();
 
 
 	function shutdown() {
 		setTimeout(() => {
 			setresulUpdatedata(false)
+			
 		}, 4000)
 	}
 
+	const onSubmitequiestOfupdateImg = (data) => {
+		const formdata = new FormData();
+		formdata.append('img', data.img[0]);
+		formdata.append('token', localStorage.getItem('token'));
+		formdata.append("id_user_platform" , decodeJWTtoken(localStorage.getItem('token')).id_user_platform)
+		axios({
+			url: "/api/update_image_profile",
+			method: "POST",
+			headers: {
+				"Content-Type": `mulitpart/form-data`
+			},
+			data: formdata
+		}).then(state => {
+			if (state.data.status === "ok") {
+				setresulUpdatedata(true)
+				dispatch(setRander())
+			}
+		})
+	}
 	const onSubmitRequiest = (data) => {
 		const keys = Object.keys(data);
 		
@@ -79,7 +77,12 @@ function SettingsProfile() {
 				id_user_platform: userdata.id_user_platform,
 				dataupdate : data
 			}
-		}).then(state => console.log(state))	
+		}).then(state => {
+			if (state.data.status === "ok") {
+				setresulUpdatedata(true)
+				dispatch(setRander())
+			}
+		})	
 	}
 	shutdown()
 	return (
@@ -94,10 +97,10 @@ function SettingsProfile() {
 								<h1>Personal Information</h1>
 								<div>
 									<img src={userdata?.poster_img} alt="logo" />
-									<form action='/upload/images' className='form-one' method="POST" encType="multipart/form-data">
+									<form onSubmit={handleSubmit(onSubmitequiestOfupdateImg)}  className='form-one' method="POST" encType="multipart/form-data">
 										<label htmlFor='fileimg' className='editPhoto' >Edit</label>
 										<p>
-											<input type='file' className='uploadImg' id="fileimg" name='img' />
+											<input type='file' {...register('img')} className='uploadImg' id="fileimg" name='img' />
 										</p>
 										<button>submit</button>
 									</form>

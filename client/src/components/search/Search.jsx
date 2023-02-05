@@ -6,19 +6,27 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 
-function Search(props) {
+function Search() {
 	const [dataUser, setdata] = useState(null)
 	const useLoc = useLocation()
 	const name = useLoc.state?.name
-
+	
 	useEffect(() => {
-		axios.get(`/route/search_users/${name}`).then(data => setdata(data.data))
+		axios({
+			url: '/api/user_search_by_name',
+			
+			method : 'POST' ,
+			data: {
+				token  : localStorage.getItem('token') ,
+				full_Name : name ,
+			}
+		}).then(state => {
+			setdata(state.data)
+		}) 
 
-		return () => {
-			setdata(null)
-		}
-	}, [])
-
+	}, [name]) 
+	
+	
 
 	return (
 		<>
@@ -27,14 +35,14 @@ function Search(props) {
 				<div className='search-users-page'>
 					{/*<h1>Search Page </h1>*/}
 					{
-						dataUser ? (
-							dataUser?.map((ele, index) => {
+						dataUser?.status === "ok" ? (
+							dataUser?.data?.map((user, index) => {
 								return (
 
 									<div className='cart-search' key={index}>
-										<Link to={'/profile'} state={{ "id": ele?.id_user }}><img src={ele?.poster_img} alt="logo" /></Link>
-										<h2>{ele?.full_Name}</h2>
-										<p>	{ele?.information.brith_date}</p>
+										<Link to={'/profile'} state={{ "id": user?.id_user_platform }}><img src={user?.poster_img} alt="logo" /></Link>
+										<h2>{user?.full_Name}</h2>
+										<p>	{user?.information.brith_date}</p>
 									</div>
 								)
 							})
@@ -43,6 +51,7 @@ function Search(props) {
 				</div>
 			</div>
 		</>
+		
 	)
 }
 

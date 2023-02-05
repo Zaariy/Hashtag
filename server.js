@@ -13,7 +13,7 @@ require("dotenv").config();
 const URI = "mongodb://localhost:27017/hashtag";
 mongoose.set("strictQuery", true);
 mongoose
-  .connect(URI)
+  .connect(process.env.DATABASE_URL || URI)
   .then(() => console.log("Database connected."))
   .catch((err) => {
     console.log("Database Not Connected.");
