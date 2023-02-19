@@ -279,4 +279,30 @@ handleInfoUser.post(
   }
 );
 
+handleInfoUser.get("/verify_token", (req, res) => {
+  const { token } = req.query;
+  if (!token) {
+    res.send({
+      status: "fail",
+      msg: "Please add token",
+      err: "token",
+      token: false,
+    });
+  }
+  try {
+    if (jwt.verify(token, process.env.SECRIT_KEY_JWT)) {
+      res.send({
+        token: true,
+        msg: "valid token",
+        err: "",
+      });
+    }
+  } catch {
+    res.send({
+      token: false,
+      msg: "token not valid",
+      err: "",
+    });
+  }
+});
 module.exports = handleInfoUser;

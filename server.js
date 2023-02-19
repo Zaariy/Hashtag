@@ -24,6 +24,7 @@ app.use("/api", singup);
 app.use("/api", login);
 app.use("/uploads", uploads);
 app.use("/api", handleInfoUser);
+
 // this medelware for searching files // """ For Test  """
 app.use((req, res, next) => {
   var imagepath = path.join(__dirname, req.url || "none");

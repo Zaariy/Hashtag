@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import './createpost.css';
@@ -8,64 +8,58 @@ import FormData from 'form-data';
 import axios from 'axios';
 import { setRander } from '../main/sliceRerander';  
 import { useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form'
 
 
-/*
- I did 'PopWindow and CreatePostChild' as component childs 
- to access one state 
-*/
 
 function CreatePost() {
 
 	const [state, setState] = useState(false);
 	const [image, setImage] = useState(false);
 	const [selectedImg, setSelectedImg] = useState();
-	const [file, setFile] = useState()
 	const data = useSelector(state => state.userData.data)
 	const dispatch = useDispatch();
+	const {register  , handleSubmit } = useForm();
 
-	function showUploadImg(event) {
-		// This function shows us an image we had selected before		
-		setSelectedImg(URL.createObjectURL(event.target.files[0]))
-	}
+	
+	useEffect(() => {
+		// if user close post component we'll clear all data from inputs failds
+		if (state === false) {
+			setSelectedImg(null)
+			setImage(false)		
+		}
 
-	function hundleData(e) {
-		e.preventDefault()
+	} , [state])
 
-		const d = Array.from(e.target)
-		const inputText = d[0].value
-		// send img First because it has Content-Type : multipart/form-data
-		hundleUpload(inputText)
-
-	}
-
-	function hundleUpload(text) {
+	function selectData(data) {
+		
+		
+		
 		const formdata = new FormData()
-		formdata.append('img', file)
-		formdata.append('artical_post', text)
+		formdata.append('img', data.image[0])
+		formdata.append('artical_post', data.story)
 		formdata.append('id_user_platform' , decodeJWTtoken(localStorage.getItem('token')).id_user_platform)
 		formdata.append('token', localStorage.getItem('token'));
-
-
 		axios({
 			url: `/uploads/post`,
 			method: `POST`,
 			headers: {
 				"Content-Type": `mulitpart/form-data`
 			},
-
+	
 			data: formdata,
-
+	
 		}).then((data) => {
-
+	
 			if (data.data.status === 'ok') {
 				setState(false); 
 				dispatch(setRander())
-
+				
 			} 
 		})
 	}
-	function PopWindow() {
+	
+	function PopWindowPostStory() {
 		return (
 			<div className='pop-window'>
 				<div className='content' >
@@ -77,17 +71,17 @@ function CreatePost() {
 						<img src={data?.poster_img} alt='logo' />
 						<span>{data?.full_Name}</span>
 					</div>
-					<form onSubmit={hundleData} encType='multipart/form-data' method='POST' >
-						<input type='text' name='story' placeholder='Write something here...' />
+					<form onSubmit={handleSubmit(selectData)} encType='multipart/form-data' method='POST' >
+						<input type='text' name='story' {...register('story') } placeholder='Write something here...' />
 						{
-							image ? <div className='upload-image' ><img src={selectedImg} alt='user' /></div> : ''
+							image ? <div className='upload-image' ><img  src={selectedImg} alt='user' /></div> : ''
 						}
 						<label htmlFor='fileimg' >&#127924; Photo</label>
-						<p><input type='file' id='fileimg' name='img' accept='image/*' onChange={(event) => {
-							setImage(!image)
-							setFile(event.target.files[0])
-							showUploadImg(event)
-						}} /></p>
+						<p><input type='file' {...register('image', {
+							onChange: (event) => {
+							setSelectedImg(URL.createObjectURL(event.target.files[0]))
+							setImage(true)
+						}})} id='fileimg' name='image' /></p>
 						<button >Send</button>
 					</form >
 				</div>
@@ -96,19 +90,18 @@ function CreatePost() {
 		)
 	}
 
-
-	function CreatePostChild() {
-		return (
+	return (
+		<div>
 			<div >
 				{
-					state ? <PopWindow /> : <></>
+					state ? <PopWindowPostStory /> : <></>
 				}
 
 				<section className='create-post'>
 					<h2>Create Post</h2>
 					<div className='text'>
 						<img src={data?.poster_img} alt='logo' />
-						<span onClick={() => setState(!state)} >Write something here...</span>
+						<span onClick={() => {setState(!state)}} >Write something here...</span>
 					</div>
 					<div className='options' >
 						<button>&#127924;<span>Photo</span></button>
@@ -119,11 +112,6 @@ function CreatePost() {
 
 
 			</div>
-		)
-	}
-	return (
-		<div>
-			<CreatePostChild />
 		</div>
 	)
 

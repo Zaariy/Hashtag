@@ -4,15 +4,13 @@ import './postes.css';
 import CreatePost from '../createPost/Createpost';
 import Story from '../main/Story';
 import Groups from '../main/Groups.jsx';
-import Likes from './Likes.jsx';
 import { useSelector} from 'react-redux';
-import Comments from './Comments';
+import InteractionField from './InteractionField';
 
 
 
 function Postes(props) {
 	let public_postes_data = useSelector(state => state.public_postes )
-	const [openCloseComment , setOpenCloseComment] = useState(false);
 	const [clickState, setClickState] = useState(false);
 
 	if (props.user_postes) {
@@ -74,13 +72,7 @@ function Postes(props) {
 											{
 												post?.image !== undefined ? <img src={`/uploads/images/${post?.image}`} alt='myphoto' /> : ''
 											}
-
-											<Likes datapost={post} openCloseCommentEvent={() => {
-												setOpenCloseComment((prv) => {
-													return prv =  !prv
-												})
-										}} />
-											<Comments postdata={post} eventOpneCloseComment={openCloseComment} ></Comments>
+										<InteractionField idComment={index } postdata={post}/>
 									</div>
 								)
 							})

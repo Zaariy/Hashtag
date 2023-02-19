@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect  , useRef} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -8,12 +8,11 @@ import {useForm} from "react-hook-form"
 import { setRander } from '../main/sliceRerander';
 import { useDispatch } from 'react-redux';
 
-function Comments({ postdata  , eventOpneCloseComment}) {
-	// const [dataComment] =useState([data])
+function Comments({ postdata  , localIdComment , commentEvent}) {
 	const datauser = useSelector(state => state.userData.data);
 	const { register , handleSubmit} = useForm();
 	const dispatch = useDispatch();
-
+	const test = useRef(null);
 
 
 	function onSubmitComment(data) {
@@ -44,13 +43,30 @@ function Comments({ postdata  , eventOpneCloseComment}) {
 
 	}
 
+	function selectWhichCommentOpenClose(event) {
+		if (event.id !== null && event.id !== undefined) {
+			
+			if (event.id === test.current.id) {
+				test.current.style.display =  event.event ? 'block' : 'none'
+			} else {
+
+				test.current.style.display = 'none' 
+			}
+			
+		}
+	}
+
+	useEffect(() => {
+		selectWhichCommentOpenClose(commentEvent)
+	}, [commentEvent.event])
+	
 	return (
-		<div className='post-comments' style={{ 'display': eventOpneCloseComment ? 'block' : 'none' }}>
+		<div className='post-comments' ref={test} id={localIdComment}   >
 			{	
 					postdata.comments.map((comment, index) => {
 						
 						return (
-							<div className='cart-comments' key={index}>
+							<div className='cart-comments' key={index}  >
 								<Link to={'/profile'} state={{ "id": comment.id_user_platform }}><img src={comment.img} alt='user pecture' /></Link>
 								<div className='text'>
 									<span>{comment.name}</span>
