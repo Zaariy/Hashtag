@@ -3,11 +3,14 @@ const uploads = express.Router();
 const multer = require("multer");
 const path = require("path");
 const jwt = require("jsonwebtoken");
+const Jimp = require("jimp");
 const randomSt = require("random-string");
 const userLogin = require("../model/userLogin");
 const userMain = require("../model/userMain");
 const public_postes = require("../model/public_postes");
-var RANDOM_STRING;
+
+var RANDOM_STRING; // Name of image.
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path.join(__dirname, "../", "uploads", "images"));
@@ -27,6 +30,15 @@ const storage = multer.diskStorage({
 
 const uploadFile = multer({ storage: storage });
 uploads.post("/post", uploadFile.single("img"), async (req, res) => {
+  // Jimp is libary fro editing Images
+  Jimp.read(
+    path.resolve(__dirname, "../", "uploads", "images", RANDOM_STRING)
+  ).then((img) =>
+    img
+      // When user upload his image then we try to resize it .
+      .resize(320, Jimp.AUTO)
+      .write(path.resolve(__dirname, "../", "uploads", "images", RANDOM_STRING))
+  );
   const { id_user_platform, artical_post = "", token } = req.body;
   if (!token) {
     return res.send({
