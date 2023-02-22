@@ -2,6 +2,7 @@ const express = require("express");
 const handleInfoUser = express.Router();
 const jwt = require("jsonwebtoken");
 const userLogin = require("../model/userLogin");
+const Jimp = require("jimp");
 const userMain = require("../model/userMain");
 const randomSt = require("random-string");
 const multer = require("multer");
@@ -239,6 +240,13 @@ handleInfoUser.post(
   "/update_image_profile",
   uploadFile.single("img"),
   async (req, res) => {
+    Jimp.read(
+      path.resolve(__dirname, "../", "uploads", "images", NAME_IMG)
+    ).then((img) =>
+      img
+        .resize(150, 150)
+        .write(path.resolve(__dirname, "../", "uploads", "images", NAME_IMG))
+    );
     const { token, id_user_platform } = req.body;
     if (!id_user_platform) {
       res.send({

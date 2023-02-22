@@ -10,12 +10,13 @@ const uploads = require("./routes/handle_postes");
 const handleInfoUser = require("./routes/userHandelInfo");
 require("dotenv").config();
 // connect Mongodb
-const URI = "mongodb://localhost:27017/hashtag";
+const URI = "mongodb://127.0.0.1:27017/hashtag";
 mongoose.set("strictQuery", true);
 mongoose
   .connect(process.env.DATABASE_URL || URI)
   .then(() => console.log("Database connected."))
   .catch((err) => {
+    console.log(err);
     console.log("Database Not Connected.");
   });
 
