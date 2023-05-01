@@ -12,6 +12,9 @@
 
 **HASHTAG** is a Full-stack web it builds like social media website you can post your images and your story like any other social media website, in **HASHTAG** website is still in development it needs a lot of features to add.
 
+![img](https://raw.githubusercontent.com/Zaariy/Hashtag/main/pec.JPG)
+
+
 ## The Technologies we used :
 
 In this small project we usded for :<br>
@@ -35,24 +38,5 @@ In this small project we usded for :<br>
 
 
 
-## Let's take a look at Roadmap Components and their Child's
 
-    Profile
-        |__ Postes
-        |__ Photos
-        |__ about
-        |__ Friends
-
-    Mainpage
-        |__ Navigation
-        |__ Postes
-            |__ createPhost
-            |__ Likes
-                |__ comments
-        |__ sidePhotos
-        |__ sideFriends
-        |__ story
-        |__ groups
-
-    Settingsprofile
-        |__ Navigation
+ 
