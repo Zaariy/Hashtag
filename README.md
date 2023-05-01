@@ -33,9 +33,7 @@ In this small project we usded for :<br>
   - MongoDb <br>
   - Build Rest Full Api <br>
 
-## Some challenges we faced and some features I hope to add to the project :
 
-I had faced many challenges, especially with the backend in MongoDb some queries didn't work with me and it takes to me a lot of time but I fixed them, and I hope to add some features like Chats and Following Friends each other.
 
 ## Let's take a look at Roadmap Components and their Child's
 
